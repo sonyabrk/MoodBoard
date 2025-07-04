@@ -1,0 +1,209 @@
+.Frame234 {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    margin: 0 auto;
+    transform-origin: top left;
+    overflow: hidden;
+
+    .click {
+        position: absolute;
+        font-size: 18px;
+        height: 10px;
+        width: 150px;
+        top: 50px;
+        left: 55px;
+        font-family: 'Irish Grover';
+        color: rgb(0, 0, 0);
+    }
+
+    .title2 {
+        position: absolute;
+        font-size: 55px;
+        height: 99px;
+        width: 380px;
+        left: 55px;
+        text-align: left;
+        font-family: 'Irish Grover';
+        color: black;
+
+        //сброс стилей кнопки
+        background: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+
+        &:hover, &:focus {
+            outline: none;
+            text-decoration: underline;
+        }
+    }
+    .textFrame234 {
+        position: absolute;
+        font-size: 27px;
+        height: 49px;
+        width: 290px;
+        top: 80px;
+        left: 55px;
+        text-align: left;
+        font-family: 'Irish Grover';
+        color: rgba(38, 34, 34, 0.2); 
+        color: #080606;
+    }
+    .people-1 {
+        position: absolute;
+        height: 434px;
+        width: 384px;
+        top: 18px;
+        left: 575px;
+    }
+    .people-2 {
+        position: absolute;
+        height: 391px;
+        width: 377px;
+        top: 40px;
+        left: 958px;
+    }
+    .people-3 {
+        position: absolute;
+        height: 355px;
+        width: 532px;
+        top: 196px;
+        left: 60px;
+    }
+    .people-4 {
+        position: absolute;
+        height: 341px;
+        width: 585px;
+        top: 513px;
+        left: 7px;
+    }
+    .people-5 {
+        position: absolute;
+        height: 412px;
+        width: 439px;
+        top: 431px;
+        left: 575px;
+    }
+    .people-6 {
+        position: absolute;
+        height: 458px;
+        width: 325px;
+        top: 396px;
+        left: 1004px;
+    }
+
+    .art-1 {
+        position: absolute;
+        height: 449px;
+        width: 351px;
+        top: 85px;
+        left: 369px;
+    }
+    .art-2 {
+        position: absolute;
+        height: 484px;
+        width: 379px;
+        top: 74px;
+        left: 677px;
+    }
+    .art-3 {
+        position: absolute;
+        height: 360px;
+        width: 316px;
+        top: 44px;
+        left: 1033px;
+    }
+    .art-4 {
+        position: absolute;
+        height: 594px;
+        width: 336px;
+        top: 154px;
+        left: 33px;
+    }
+    .art-5 {
+        position: absolute;
+        height: 248px;
+        width: 664px;
+        top: 534px;
+        left: 369px;
+    }
+    .art-6 {
+        position: absolute;
+        height: 384px;
+        width: 295px;
+        top: 404px;
+        left: 1033px;
+    }
+    .fashion-1 {
+        position: absolute;
+        height: 280px;
+        width: 300px;
+        top: 166px;
+        left: 33px;
+    }
+    .fashion-2 {
+        position: absolute;
+        height: 397px;
+        width: 298px;
+        top: 105px;
+        left: 250px;
+    }
+    .fashion-3 {
+        position: absolute;
+        height: 389px;
+        width: 311px;
+        top: 74px;
+        left: 548px;
+    }
+    .fashion-4 {
+        position: absolute;
+        height: 396px;
+        width: 223px;
+        top: 18px;
+        left: 859px;
+    }
+    .fashion-5 {
+        position: absolute;
+        height: 364px;
+        width: 304px;
+        top: 34px;
+        left: 1042px;
+    }
+    .fashion-6 {
+        position: absolute;
+        height: 448px;
+        width: 284px;
+        top: 415px;
+        left: 20px;
+    }
+    .fashion-7 {
+        position: absolute;
+        height: 317px;
+        width: 241px;
+        top: 463px;
+        left: 223px;
+    }
+    .fashion-8 {
+        position: absolute;
+        height: 333px;
+        width: 257px;
+        top: 463px;
+        left: 450px;
+    }
+    .fashion-9 {
+        position: absolute;
+        height: 416px;
+        width: 346px;
+        top: 398px;
+        left: 696px;
+    }
+    .fashion-10 {
+        position: absolute;
+        height: 400px;
+        width: 346px;
+        top: 352px;
+        left: 1021px;
+    }
+}
+

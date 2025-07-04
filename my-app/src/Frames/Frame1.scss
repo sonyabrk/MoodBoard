@@ -1,0 +1,33 @@
+.Frame1 {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    margin: 0 auto;
+    transform-origin: top left;
+    overflow: hidden;
+    text-align: center;
+
+  .title {
+    position: absolute;
+    font-size: 140px;
+    height: 236px;
+    width: 726px;
+    top: 145px;
+    left: 388px;
+    font-family: 'Irish Grover';
+    color: black;
+  }
+  .textmain {
+    font-size: 20px;
+    width: 730px;
+    margin: 0 auto; 
+    font-family: 'Irish Grover';
+    color: #080606;
+    display: flex;
+    flex-direction: column;
+    gap: 8px; 
+    position: relative;
+    top: 522px; 
+    left: 48px;
+  }
+}

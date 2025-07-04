@@ -1,0 +1,213 @@
+.cardsContainer {
+    position: relative;
+    width: 1393px;
+    height: 1500px;
+    top: 220px;
+    .card-p1 {
+        position: absolute;
+        left: 103px;
+        .people_1 {
+            position: absolute;
+            height: 423px;
+            width: 285px;
+            border-radius: 15%;
+        }
+    }
+    .card-p2 {
+        position: absolute;
+        left: 593px;
+        .people_2 {
+            position: absolute;
+            height: 423px;
+            width: 285px;
+            border-radius: 15%;
+        }
+    }
+    .card-p3 {
+        position: absolute;
+        left: 1083px;
+        .people_3 {
+            position: absolute;
+            height: 423px;
+            width: 285px;
+            border-radius: 15%;
+        }
+    }
+
+    .card-a1 {
+        position: absolute;
+        left: 103px;
+        .art_1 {
+            position: absolute;
+            height: 423px;
+            width: 285px;
+            border-radius: 15%;
+        }
+        .cardText {
+            position: absolute;
+            font-size: 23px;
+            height: 98px;
+            width: 407px;
+            top: 410px;
+            left: -55px;
+            text-align: center;
+            font-family: 'Irish Grover';
+            color: black;
+        }
+    }
+    .card-a2 {
+        position: absolute;
+        left: 593px;
+        .art_2 {
+            position: absolute;
+            height: 423px;
+            width: 285px;
+            border-radius: 15%;
+        }
+        .cardText {
+            position: absolute;
+            font-size: 23px;
+            height: 98px;
+            width: 407px;
+            top: 410px;
+            left: -55px;
+            text-align: center;
+            font-family: 'Irish Grover';
+            color: black;
+        }
+    }
+    .card-a3 {
+        position: absolute;
+        left: 1083px;
+        .art_3 {
+            position: absolute;
+            height: 423px;
+            width: 285px;
+            border-radius: 15%;
+        }
+        .cardText {
+            position: absolute;
+            font-size: 23px;
+            height: 98px;
+            width: 407px;
+            top: 410px;
+            left: -55px;
+            text-align: center;
+            font-family: 'Irish Grover';
+            color: black;
+        }
+    }
+
+    .card-f1 {
+        position: absolute;
+        left: 103px;
+        .fashion_1 {
+            position: absolute;
+            height: 423px;
+            width: 285px;
+            border-radius: 15%;
+        }
+    }
+    .card-f2 {
+        position: absolute;
+        left: 593px;
+        .fashion_2 {
+            position: absolute;
+            height: 423px;
+            width: 285px;
+            border-radius: 15%;
+        }
+    }
+    .card-f3 {
+        position: absolute;
+        left: 1083px;
+        .fashion_3 {
+            position: absolute;
+            height: 423px;
+            width: 285px;
+            border-radius: 15%;
+        }
+    }
+    .card-f4 {
+        position: absolute;
+        top: 650px;
+        left: 353px;
+        .fashion_4 {
+            position: absolute;
+            height: 423px;
+            width: 285px;
+            border-radius: 15%;
+        }
+    }
+    .card-f5 {
+        position: absolute;
+        top: 650px;
+        left: 853px;
+        .fashion_5 {
+            position: absolute;
+            height: 423px;
+            width: 285px;
+            border-radius: 15%;
+        }
+    }
+
+
+    .buttonText {
+        position: absolute;
+        font-size: 30px;
+        height: 50px;
+        width: 208px;
+        top: 510px;      
+        left: 40px;      
+
+        font-family: 'Irish Grover';
+        color: black;
+        border-radius: 80px;
+        background-color: rgba(117, 81, 135, 0.8);
+
+        display: flex;
+        align-items: center;      
+        justify-content: center;
+    }
+}
+
+.modOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10000;
+}
+
+.modContent {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(86, 58, 86, 0.989);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  z-index: 10001;
+  min-width: 300px;
+  text-align: center;
+
+  .advr {
+    font-size: 18px;
+    font-family: 'Irish Grover';
+    margin-bottom: 15px;
+  }
+}
+
+.modClose {
+  background-color: #000000;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: 'Irish Grover';
+}
+
+
