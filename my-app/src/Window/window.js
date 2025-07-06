@@ -1,14 +1,14 @@
-import p1 from './assets/images/wpeople1.jpg';
-import p2 from './assets/images/wpeople2.jpg';
-import p3 from './assets/images/wpeople3.jpg';
-import a1 from './assets/images/wart1.jpg';
-import a2 from './assets/images/wart2.jpg';
-import a3 from './assets/images/wart3.jpg';
-import f1 from './assets/images/wfashion1.jpg';
-import f2 from './assets/images/wfashion2.jpg';
-import f3 from './assets/images/wfashion3.jpg';
-import f4 from './assets/images/wfashion4.jpg';
-import f5 from './assets/images/wfashion5.jpg';
+import p1 from '../assets/images/wpeople1.jpg';
+import p2 from '../assets/images/wpeople2.jpg';
+import p3 from '../assets/images/wpeople3.jpg';
+import a1 from '../assets/images/wart1.jpg';
+import a2 from '../assets/images/wart2.jpg';
+import a3 from '../assets/images/wart3.jpg';
+import f1 from '../assets/images/wfashion1.jpg';
+import f2 from '../assets/images/wfashion2.jpg';
+import f3 from '../assets/images/wfashion3.jpg';
+import f4 from '../assets/images/wfashion4.jpg';
+import f5 from '../assets/images/wfashion5.jpg';
 
 export const WINDOW = [
     {
