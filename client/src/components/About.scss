@@ -1,0 +1,102 @@
+.about-section {
+  min-height: 100vh;
+  padding: 100px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.about-container {
+  max-width: 1400px;
+  width: 100%;
+  display: flex;
+  gap: 80px;
+  align-items: center;
+}
+
+.about-left {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  animation: slideInLeft 1s ease-out;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.about-right {
+  flex: 1;
+  animation: slideInRight 1s ease-out;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.about-text-column {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.about-text {
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.95);
+  text-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInText 0.6s ease-out forwards;
+
+  @for $i from 1 through 7 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{0.1 + ($i * 0.1)}s;
+    }
+  }
+}
+
+@keyframes fadeInText {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Адаптивность */
+@media (max-width: 900px) {
+  .about-container {
+    flex-direction: column;
+    gap: 60px;
+  }
+
+  .about-left,
+  .about-right {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .about-text {
+    font-size: clamp(1.3rem, 4vw, 2rem);
+    text-align: center;
+  }
+
+  .about-text-column {
+    gap: 20px;
+  }
+}

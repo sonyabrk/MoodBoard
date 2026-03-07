@@ -1,0 +1,249 @@
+// Переменные для цветов
+$bordeaux: rgb(120, 4, 4);
+$bordeaux-light: rgba(120, 4, 4, 0.15);
+$bordeaux-border: rgba(120, 4, 4, 0.3);
+$success-color: #4caf50;
+$error-color: #ff6b6b;
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-content {
+  background: linear-gradient(135deg, #2d2d2d, #1a1a1a);
+  border-radius: 25px;
+  padding: 50px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
+              0 0 0 1px rgba(255, 107, 107, 0.3),
+              0 0 0 2px rgba(255, 255, 255, 0.1);
+  position: relative;
+  animation: slideUp 0.4s;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  font-size: 28px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: bold;
+
+  &:hover {
+    background: rgba(255, 107, 107, 0.3);
+    transform: rotate(90deg);
+  }
+}
+
+.modal-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  text-align: center;
+  background: linear-gradient(135deg, #ff6b6b, #ffa500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Форма */
+.creator-form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label {
+  font-size: 14px;
+  color: #aaa;
+  font-weight: 500;
+}
+
+.form-input {
+  padding: 15px 20px;
+  border-radius: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.3);
+  color: white;
+  font-size: 16px;
+  transition: all 0.3s;
+
+  &:focus {
+    outline: none;
+    border-color: rgba(255, 107, 107, 0.5);
+    box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+  }
+
+  &.error {
+    border-color: $error-color;
+    background: rgba(255, 107, 107, 0.05);
+  }
+
+  &.success {
+    border-color: $success-color;
+    background: rgba(76, 175, 80, 0.05);
+  }
+}
+
+.error-text {
+  color: $error-color;
+  font-size: 13px;
+  margin-top: 5px;
+  display: block;
+}
+
+.form-hint {
+  font-size: 12px;
+  color: #888;
+  margin-top: 5px;
+  line-height: 1.5;
+}
+
+.form-error-submit {
+  background: rgba(255, 107, 107, 0.1);
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  color: $error-color;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.submit-btn {
+  padding: 18px;
+  background: linear-gradient(135deg, #ff6b6b, #ffa500);
+  border: none;
+  border-radius: 15px;
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 10px;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+/* Модальное окно успеха */
+.success-modal {
+  text-align: center;
+  padding: 60px 40px;
+}
+
+.success-icon {
+  font-size: 80px;
+  color: #ff6b6b;
+  margin-bottom: 20px;
+  animation: scaleUp 0.5s;
+}
+
+@keyframes scaleUp {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.success-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.success-text {
+  color: #e0e0e0;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+/* Скролл */
+.modal-content {
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 107, 107, 0.5);
+    border-radius: 4px;
+  }
+}
+
+/* Индикатор проверки */
+.checking-text {
+  font-size: 13px;
+  color: #aaa;
+  margin-top: 5px;
+  display: block;
+}
+
+/* Успешная проверка */
+.success-text {
+  color: $success-color;
+  font-size: 13px;
+  margin-top: 5px;
+  display: block;
+}

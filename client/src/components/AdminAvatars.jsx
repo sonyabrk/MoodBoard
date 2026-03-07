@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import ProjectModal from './ProjectModal';
 import CreatorFormModal from './CreatorFormModal';
-import './AdminAvatars.css';
+import './AdminAvatars.scss';
 
 const AdminAvatars = () => {
   const [isVisible, setIsVisible] = useState(false);

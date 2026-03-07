@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { api } from '../../src/services/api';
-import './CreatorFormModal.css';
+import './CreatorFormModal.scss';
 
 function CreatorFormModal({ isOpen, onClose }) {
   const [formData, setFormData] = useState({

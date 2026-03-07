@@ -1,5 +1,5 @@
 import CircularText from './CircularText';
-import './About.css';
+import './About.scss';
 
 function About() {
   return (

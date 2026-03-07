@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import Grainient from './Grainient';
-import './Background.css';
+import './Background.scss';
 
 function Background() {
   const containerRef = useRef(null);

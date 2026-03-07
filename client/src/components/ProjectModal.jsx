@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import './ProjectModal.css';
+import './ProjectModal.scss';
 
 function ProjectModal({ isOpen, onClose }) {
   useEffect(() => {
