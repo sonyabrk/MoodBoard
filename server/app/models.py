@@ -44,3 +44,15 @@ class Tag(Base):
     name = Column(String, unique=True, index=True)
     
     frames = relationship("Frame", secondary=frame_tag, back_populates="tags")
+
+class CreatorApplication(Base):
+    __tablename__ = "creator_applications"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    first_name = Column(String)
+    last_name = Column(String)
+    email = Column(String)
+    username = Column(String, unique=True, index=True)
+    portfolio_url = Column(String)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    status = Column(String, default="pending")

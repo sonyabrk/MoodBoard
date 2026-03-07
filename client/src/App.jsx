@@ -1,17 +1,20 @@
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Background from './components/Background';
-import Hero from './components/Hero';
-import About from './components/About';
+import Home from './pages/Home';
 
 function App() {
   return (
     <Router>
+      {/* Фиксированный анимационный фон */}
       <Background />
       
+      {/* Контент поверх фона */}
       <div className="app-content">
-        <Hero />
-        <About />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          {/* Здесь будут другие страницы */}
+        </Routes>
       </div>
     </Router>
   );
