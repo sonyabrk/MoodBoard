@@ -1,6 +1,6 @@
 import Hero from '../components/Hero';
 import About from '../components/About';
-import AdminAvatars from '../components/AdminAvatars';
+import AdminAvatars from '../components/Section';
 
 function Home() {
   return (
