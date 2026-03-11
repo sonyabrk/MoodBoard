@@ -1,19 +1,22 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import Background from './components/Background';
 import Home from './pages/Home';
+import AdminDashboard from './pages/AdminDashboard';
+import SetPassword from './pages/SetPassword';
+import AdminLogin from './pages/AdminLogin';
 
 function App() {
   return (
     <Router>
-      {/* Фиксированный анимационный фон */}
       <Background />
-      
-      {/* Контент поверх фона */}
       <div className="app-content">
         <Routes>
           <Route path="/" element={<Home />} />
-          {/* Здесь будут другие страницы */}
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/set-password" element={<SetPassword />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
     </Router>

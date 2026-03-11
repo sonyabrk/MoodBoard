@@ -8,6 +8,8 @@ from ...database import get_db
 from ... import crud, schemas, models
 from ...auth import get_current_admin, authenticate_admin  
 import shutil
+from datetime import datetime, timedelta
+import secrets
 
 router = APIRouter()
 
@@ -158,3 +160,87 @@ async def upload_image(
         shutil.copyfileobj(file.file, buffer)
     
     return {"url": f"/uploads/{filename}"}
+
+@router.get("/creators/applications", response_model=List[schemas.CreatorApplicationResponse])
+async def get_creator_applications(
+    status_filter: Optional[str] = None,
+    db: Session = Depends(get_db),
+    current_admin: models.Admin = Depends(get_current_admin)
+):
+    """
+    Получить список заявок креаторов (только для админа)
+    """
+    query = db.query(models.CreatorApplication)
+    
+    if status_filter:
+        query = query.filter(models.CreatorApplication.status == status_filter)
+    
+    applications = query.order_by(models.CreatorApplication.created_at.desc()).all()
+    return applications
+
+@router.post("/creators/applications/{application_id}/approve")
+async def approve_creator_application(
+    application_id: int,
+    db: Session = Depends(get_db),
+    current_admin: models.Admin = Depends(get_current_admin)
+):
+    """
+    Одобрить заявку креатора и сгенерировать ссылку активации
+    """
+    application = db.query(models.CreatorApplication).filter(
+        models.CreatorApplication.id == application_id
+    ).first()
+    
+    if not application:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Заявка не найдена"
+        )
+    
+    if application.status == "approved":
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Заявка уже одобрена"
+        )
+    
+    activation_token = secrets.token_urlsafe(32)
+    token_expires_at = datetime.utcnow() + timedelta(days=7)
+    
+    application.status = "approved"
+    application.activation_token = activation_token
+    application.token_expires_at = token_expires_at
+    
+    db.commit()
+    
+    activation_link = f"http://localhost:5173/set-password?token={activation_token}"
+    
+    return {
+        "message": "Заявка одобрена",
+        "activation_link": activation_link,
+        "email": application.email,
+        "username": application.username
+    }
+
+@router.post("/creators/applications/{application_id}/reject")
+async def reject_creator_application(
+    application_id: int,
+    db: Session = Depends(get_db),
+    current_admin: models.Admin = Depends(get_current_admin)
+):
+    """
+    Отклонить заявку креатора
+    """
+    application = db.query(models.CreatorApplication).filter(
+        models.CreatorApplication.id == application_id
+    ).first()
+    
+    if not application:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Заявка не найдена"
+        )
+    
+    application.status = "rejected"
+    db.commit()
+    
+    return {"message": "Заявка отклонена", "application_id": application_id}

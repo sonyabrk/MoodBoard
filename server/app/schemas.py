@@ -72,3 +72,16 @@ class FramePublic(FrameBase):
     
     class Config:
         from_attributes = True
+
+class CreatorApplicationResponse(BaseModel):
+    id: int
+    first_name: str
+    last_name: str
+    email: str
+    username: str
+    portfolio_url: str
+    status: str
+    created_at: datetime
+
+    class Config:
+        orm_mode = True

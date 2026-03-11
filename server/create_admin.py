@@ -31,9 +31,9 @@ def create_first_admin():
     
     # Создаём первого админа
     admin = Admin(
-        username="admin",
-        email="admin@moodboard.com",
-        password_hash=get_password_hash("admin123"),
+        username="admin1",
+        email="admin1@moodboard.com",
+        password_hash=get_password_hash("admiNN!12"),
         is_active=True
     )
     
@@ -41,8 +41,8 @@ def create_first_admin():
     db.commit()
     db.refresh(admin)
     print(" Admin создан успешно!")
-    print(f"   Username: admin")
-    print(f"   Password: admin123")
+    print(f"   Username: admin1")
+    print(f"   Password: admiNN!12")
     print(f"   Email: {admin.email}")
     db.close()
 
