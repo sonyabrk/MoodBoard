@@ -1,0 +1,134 @@
+.login-button {
+  position: fixed;
+  top: 30px;
+  right: -80px; 
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: white; 
+  border: 2px solid rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 1000;
+  animation: slideInFromRight 0.8s ease-out forwards; 
+  animation-delay: 0.5s; 
+}
+
+@keyframes slideInFromRight {
+  from {
+    right: -80px;
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    right: 30px; /* Финальная позиция */
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.login-button:hover {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.25);
+  border-color: rgba(120, 4, 4, 0.3);
+}
+
+.login-button-icon {
+  font-size: 28px;
+  color: #333; 
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.15));
+}
+
+.login-button-logged-in {
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(30, 30, 30, 0.8);
+  backdrop-filter: blur(10px);
+  padding: 12px 20px;
+  border-radius: 25px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all 0.3s;
+  z-index: 1000;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.login-button-logged-in:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
+
+.login-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff6b6b, #ffa500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+}
+
+.login-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.login-username {
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+}
+
+.login-role {
+  font-size: 13px;
+  color: #aaa;
+  font-weight: 400;
+}
+
+@media (max-width: 768px) {
+  .login-button,
+  .login-button-logged-in {
+    top: 20px;
+    right: 20px;
+  }
+
+  .login-button {
+    width: 50px;
+    height: 50px;
+  }
+
+  .login-button-icon {
+    font-size: 24px;
+  }
+
+  .login-button-logged-in {
+    padding: 8px 15px;
+  }
+
+  .login-avatar {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+  }
+
+  .login-username {
+    font-size: 14px;
+  }
+
+  .login-role {
+    font-size: 12px;
+  }
+}

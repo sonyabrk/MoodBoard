@@ -1,13 +1,15 @@
 import Hero from '../components/Hero';
 import About from '../components/About';
-import AdminAvatars from '../components/Section';
+import Section from '../components/Section';
+import LoginButton from '../components/LoginButthon';
 
 function Home() {
   return (
     <>
-        <Hero />
-        <About />
-        <AdminAvatars />
+      <LoginButton />
+      <Hero />
+      <About />
+      <Section />
     </>
   );
 }
