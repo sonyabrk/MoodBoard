@@ -17,9 +17,7 @@ function AdminLogin() {
     try {
       const response = await fetch('http://localhost:8000/api/admin/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
       });
 
@@ -30,7 +28,8 @@ function AdminLogin() {
 
       const data = await response.json();
       localStorage.setItem('adminToken', data.access_token);
-      navigate('/admin');
+      // replace: true — чтобы кнопка "назад" из Dashboard вела на главную, а не сюда
+      navigate('/admin', { replace: true });
     } catch (err) {
       setError(err.message);
     } finally {
@@ -41,10 +40,19 @@ function AdminLogin() {
   return (
     <div className="admin-login-container">
       <div className="admin-login-box">
+
+        <button
+          className="admin-login-back"
+          onClick={() => navigate('/')}
+          title="На главную"
+        >
+          ← На главную
+        </button>
+
         <h1 className="admin-login-title">Админ-панель • плэйн</h1>
-        
+
         {error && <div className="admin-login-error">{error}</div>}
-        
+
         <form onSubmit={handleSubmit} className="admin-login-form">
           <div className="form-group">
             <label htmlFor="username">Логин</label>
@@ -72,11 +80,7 @@ function AdminLogin() {
             />
           </div>
 
-          <button 
-            type="submit" 
-            className="submit-btn"
-            disabled={loading}
-          >
+          <button type="submit" className="submit-btn" disabled={loading}>
             {loading ? 'Вход...' : 'Войти'}
           </button>
         </form>

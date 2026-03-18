@@ -104,3 +104,20 @@
     font-size: 2rem;
   }
 }
+.admin-login-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: rgba(120, 4, 4, 0.6);
+  font-size: 0.95rem;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 28px;
+  transition: color 0.2s;
+
+  &:hover {
+    color: rgb(120, 4, 4);
+  }
+}

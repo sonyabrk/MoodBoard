@@ -26,51 +26,47 @@ const Section = () => {
   return (
     <section className="admin-section">
       <div className="admin-container">
-        
+
         {/* Фотографии слева */}
         <div className="photos-container">
           <div className={`photo top-photo ${isVisible ? 'visible' : ''}`}>
-            <img 
-              src="/images/home_photo1.jpeg" 
-              alt="Креативный процесс" 
-            />
+            <img src="/images/home_photo1.jpeg" alt="Креативный процесс" />
           </div>
-          
+
           <div className={`photo bottom-photo ${isVisible ? 'visible' : ''}`}>
-            <img 
-              src="/images/home_photo2.jpeg" 
-              alt="Вдохновение" 
-            />
+            <img src="/images/home_photo2.jpeg" alt="Вдохновение" />
           </div>
         </div>
 
         {/* Кнопки справа */}
         <div className="admin-buttons">
-          <button 
+          <button
             className="admin-btn admin-btn--project"
             onClick={() => setShowProjectModal(true)}
           >
+            <span className="admin-btn__dot" />
             о проекте
           </button>
-          
-          <button 
+
+          <button
             className="admin-btn admin-btn--creator"
             onClick={() => setShowCreatorModal(true)}
           >
+            <span className="admin-btn__dot" />
             стать одним из креаторов
           </button>
         </div>
       </div>
 
       {/* Модальные окна */}
-      <ProjectModal 
-        isOpen={showProjectModal} 
-        onClose={() => setShowProjectModal(false)} 
+      <ProjectModal
+        isOpen={showProjectModal}
+        onClose={() => setShowProjectModal(false)}
       />
-      
-      <CreatorFormModal 
-        isOpen={showCreatorModal} 
-        onClose={() => setShowCreatorModal(false)} 
+
+      <CreatorFormModal
+        isOpen={showCreatorModal}
+        onClose={() => setShowCreatorModal(false)}
       />
     </section>
   );
