@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-// import './SetPassword.scss';
+import './SetPassword.scss'; 
 
 function SetPassword() {
   const [searchParams] = useSearchParams();
@@ -10,6 +10,7 @@ function SetPassword() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [countdown, setCountdown] = useState(3);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,6 +18,16 @@ function SetPassword() {
       setError('Ссылка активации недействительна');
     }
   }, [token]);
+
+  useEffect(() => {
+    if (!success) return;
+    if (countdown === 0) {
+      navigate('/', { replace: true });
+      return;
+    }
+    const timer = setTimeout(() => setCountdown(c => c - 1), 1000);
+    return () => clearTimeout(timer);
+  }, [success, countdown, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,9 +48,7 @@ function SetPassword() {
     try {
       const response = await fetch('http://localhost:8000/api/creators/set-password', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token, password }),
       });
 
@@ -49,10 +58,6 @@ function SetPassword() {
       }
 
       setSuccess(true);
-      
-      setTimeout(() => {
-        navigate('/');
-      }, 3000);
 
     } catch (err) {
       setError(err.message);
@@ -70,7 +75,9 @@ function SetPassword() {
           <p className="success-message">
             Теперь вы можете войти в систему с вашим юзернеймом и паролем.
           </p>
-          <p>Перенаправляем на главную страницу...</p>
+          <p className="set-password-subtitle">
+            Переход на главную через {countdown}...
+          </p>
         </div>
       </div>
     );
@@ -83,9 +90,9 @@ function SetPassword() {
         <p className="set-password-subtitle">
           Вы получили эту ссылку после одобрения вашей заявки на креаторство
         </p>
-        
+
         {error && <div className="error-message">{error}</div>}
-        
+
         <form onSubmit={handleSubmit} className="set-password-form">
           <div className="form-group">
             <label htmlFor="password">Новый пароль *</label>
@@ -113,10 +120,10 @@ function SetPassword() {
             />
           </div>
 
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className="submit-btn"
-            disabled={loading}
+            disabled={loading || !token}
           >
             {loading ? 'Установка...' : 'Установить пароль'}
           </button>

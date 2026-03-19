@@ -1,65 +1,38 @@
 .login-button {
-  position: fixed;
-  top: 30px;
-  right: 30px;
   width: 60px;
   height: 60px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.07);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(0, 0, 0);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: none;
   transition: background 0.25s ease, border-color 0.25s ease;
-  z-index: 1000;
   opacity: 0;
   animation: slideInFromRight 0.8s ease-out 0.5s forwards;
+  flex-shrink: 0;
 
   &:hover {
     background: rgba(255, 255, 255, 0.14);
     border-color: rgba(0, 0, 0, 0.7);
-    transform: none;
-    box-shadow: none;
   }
 }
 
 .login-button-icon {
-  font-size: 28px;
+  font-size: 24px;
   color: rgba(0, 0, 0, 0.85);
-  filter: none;
 }
 
 @keyframes slideInFromRight {
-  from {
-    transform: translateX(120px) scale(0.8); 
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0) scale(1);
-    opacity: 1;
-  }
+  from { transform: translateX(80px) scale(0.8); opacity: 0; }
+  to { transform: translateX(0) scale(1); opacity: 1; }
 }
 
-// .login-button:hover {
-//   transform: scale(1.1) rotate(5deg);
-//   box-shadow: 0 6px 25px rgba(0, 0, 0, 0.25);
-//   border-color: rgba(120, 4, 4, 0.3);
-// }
-
-// .login-button-icon {
-//   font-size: 28px;
-//   color: #333; 
-//   filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.15));
-// }
-
+/* Кнопка после входа */
 .login-button-logged-in {
-  position: fixed;
-  top: 30px;
-  right: 30px;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -71,12 +44,12 @@
   border: 1px solid rgba(0, 0, 0, 0.5);
   cursor: pointer;
   transition: background 0.25s ease, border-color 0.25s ease;
-  z-index: 1000;
-}
+  flex-shrink: 0;
 
-.login-button-logged-in:hover {
-  background: rgba(255, 255, 255, 0.14);
-  border-color: rgba(0, 0, 0, 0.7);
+  &:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(0, 0, 0, 0.7);
+  }
 }
 
 .login-avatar {
@@ -96,7 +69,7 @@
 .login-info {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
 }
 
 .login-username {
@@ -106,42 +79,30 @@
 }
 
 .login-role {
-  font-size: 12px;
-  color: rgba(0, 0, 0, 0.5);
-  font-weight: 400;
+  font-size: 11px;
+  color: rgba(0, 0, 0, 0.45);
 }
 
 @media (max-width: 768px) {
-  .login-button,
-  .login-button-logged-in {
-    top: 20px;
-    right: 20px;
-  }
-
   .login-button {
     width: 50px;
     height: 50px;
   }
 
   .login-button-icon {
-    font-size: 24px;
+    font-size: 20px;
   }
 
   .login-button-logged-in {
-    padding: 8px 15px;
+    padding: 8px 14px 8px 8px;
   }
 
   .login-avatar {
     width: 30px;
     height: 30px;
-    font-size: 16px;
+    font-size: 13px;
   }
 
-  .login-username {
-    font-size: 14px;
-  }
-
-  .login-role {
-    font-size: 12px;
-  }
+  .login-username { font-size: 13px; }
+  .login-role { font-size: 10px; }
 }
