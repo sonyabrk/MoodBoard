@@ -1,4 +1,4 @@
-.admin-dashboard {
+  .admin-dashboard {
   min-height: 100vh;
   background: #1a1a1a;
   color: white;
@@ -16,7 +16,7 @@
 
 .admin-header h1 {
   font-size: 2.5rem;
-  background: linear-gradient(135deg, #ff6b6b, #ffa500);
+  background: linear-gradient(135deg, #ffffff, #ad3c3c);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -229,6 +229,64 @@
     font-size: 2rem;
   }
 }
+/* ── Модал со ссылкой активации ── */
+.link-modal {
+  max-width: 560px !important;
+}
+
+.link-modal-icon {
+  font-size: 2.5rem;
+  color: #4caf50;
+  margin-bottom: 12px;
+}
+
+.link-modal-hint {
+  font-size: 0.95rem;
+  color: #888;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.link-box {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 16px;
+  word-break: break-all;
+  text-align: left;
+}
+
+.link-text {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.75);
+  font-family: monospace;
+  line-height: 1.6;
+  user-select: all;
+}
+
+.copy-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  background: rgba(114, 0, 0, 0.7);
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s;
+
+  &:hover {
+    background: rgba(114, 0, 0, 0.9);
+  }
+
+  &.copied {
+    background: rgba(76, 175, 80, 0.7);
+    cursor: default;
+  }
+}
+
 .admin-header-left {
   display: flex;
   align-items: center;
@@ -237,8 +295,8 @@
 
 .admin-back-btn {
   background: none;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.6);
   padding: 8px 16px;
   border-radius: 20px;
   font-size: 0.9rem;
@@ -247,8 +305,7 @@
   white-space: nowrap;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.08);
     color: white;
-    border-color: rgba(255, 255, 255, 0.5);
   }
 }

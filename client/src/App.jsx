@@ -3,6 +3,7 @@ import './App.css';
 import Background from './components/Background/Background';
 import Home from './pages/Home';
 import AdminDashboard from './pages/AdminDashboard';
+import CreatorDashboard from './pages/CreatorDashboard';
 import SetPassword from './pages/SetPassword';
 import AdminLogin from './pages/AdminLogin';
 import Search from './pages/Search';
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
+          <Route path="/creator" element={<CreatorDashboard />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/set-password" element={<SetPassword />} />

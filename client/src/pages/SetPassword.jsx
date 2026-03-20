@@ -12,7 +12,7 @@ function SetPassword() {
   const [loading, setLoading] = useState(false);
   const [countdown, setCountdown] = useState(3);
   const navigate = useNavigate();
-
+  
   useEffect(() => {
     if (!token) {
       setError('Ссылка активации недействительна');

@@ -1,0 +1,269 @@
+@font-face {
+  font-family: 'Soledago';
+  src: url('/fonts/Soledago.ttf') format('truetype');
+}
+
+$font: 'Soledago', sans-serif;
+$burgundy: rgba(114, 0, 0, 0.85);
+$burgundy-faint: rgba(114, 0, 0, 0.07);
+$burgundy-border: rgba(114, 0, 0, 0.18);
+$glass: rgba(255, 255, 255, 0.07);
+$border: rgba(0, 0, 0, 0.5);
+
+.creator-loading {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  font-family: $font; font-size: 1.1rem; color: rgba(0,0,0,0.3);
+  background: rgba(255,255,255,0.93);
+  backdrop-filter: blur(24px);
+}
+
+.creator-dashboard {
+  min-height: 100vh;
+  display: flex;
+  background: rgba(255, 255, 255, 0.93);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  font-family: $font;
+}
+
+/* ── Сайдбар ── */
+.creator-sidebar {
+  width: 260px;
+  flex-shrink: 0;
+  border-right: 0.5px solid rgba(0, 0, 0, 0.08);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.creator-back-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 18px; border-radius: 100px;
+  background: $glass; backdrop-filter: blur(12px);
+  border: 2px solid black;
+  font-family: $font; font-size: 0.95rem;
+  color: rgba(0,0,0,0.7); cursor: pointer;
+  transition: background 0.25s, border-color 0.25s;
+  align-self: flex-start;
+
+  svg { width: 14px; height: 14px; stroke: rgba(0,0,0,0.5); }
+  &:hover { background: rgba(255,255,255,0.14); border-color: rgba(0,0,0,0.75); }
+}
+
+.creator-profile {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 8px; text-align: center;
+  padding: 20px 0;
+  border-bottom: 0.5px solid rgba(0,0,0,0.06);
+}
+
+.creator-avatar {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: rgba(0,0,0,0.55);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px; font-weight: 600; color: rgba(255,255,255,0.85);
+  border: 1px solid rgba(0,0,0,0.3);
+}
+
+.creator-name {
+  font-size: 1.1rem; font-weight: 600; color: rgba(0,0,0,0.85);
+}
+
+.creator-username {
+  font-size: 0.85rem; color: rgba(0,0,0,0.4);
+}
+
+.creator-portfolio-link {
+  font-size: 0.8rem; color: $burgundy;
+  text-decoration: none; border-bottom: 0.5px solid $burgundy-border;
+  &:hover { border-color: $burgundy; }
+}
+
+.creator-stats {
+  display: flex; gap: 16px; justify-content: center;
+}
+
+.creator-stat {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+}
+
+.creator-stat-num {
+  font-size: 1.5rem; font-weight: 700; color: rgba(0,0,0,0.8);
+}
+
+.creator-stat-label {
+  font-size: 0.75rem; color: rgba(0,0,0,0.35);
+}
+
+.creator-logout-btn {
+  margin-top: auto;
+  padding: 10px 18px; border-radius: 100px;
+  background: $burgundy-faint; border: 0.5px solid $burgundy-border;
+  font-family: $font; font-size: 0.9rem; color: $burgundy;
+  cursor: pointer; transition: all 0.2s;
+  &:hover { background: rgba(114,0,0,0.12); }
+}
+
+/* ── Основной контент ── */
+.creator-main {
+  flex: 1; padding: 36px 40px; overflow-y: auto;
+}
+
+.creator-main-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.creator-main-title {
+  font-size: 1.6rem; font-weight: 700; color: rgba(0,0,0,0.85);
+}
+
+.creator-add-btn {
+  padding: 11px 22px; border-radius: 100px;
+  background: $glass; backdrop-filter: blur(12px);
+  border: 2px solid black;
+  font-family: $font; font-size: 0.95rem;
+  color: rgba(0,0,0,0.75); cursor: pointer;
+  transition: background 0.25s, border-color 0.25s;
+  &:hover { background: rgba(255,255,255,0.14); }
+}
+
+/* Форма создания */
+.creator-new-frame {
+  background: rgba(255,255,255,0.7);
+  border: 0.5px solid rgba(0,0,0,0.1);
+  border-radius: 16px; padding: 20px;
+  margin-bottom: 24px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+
+.creator-input {
+  width: 100%; padding: 12px 16px;
+  border: 1px solid rgba(0,0,0,0.12); border-radius: 100px;
+  font-family: $font; font-size: 0.95rem;
+  background: #fff; color: rgba(0,0,0,0.85);
+  outline: none; transition: border-color 0.25s;
+  &:focus { border-color: rgba(114,0,0,0.35); }
+  &::placeholder { color: rgba(0,0,0,0.22); }
+}
+
+.creator-new-frame-actions {
+  display: flex; gap: 10px;
+}
+
+/* Кнопки */
+.creator-btn {
+  padding: 8px 18px; border-radius: 100px;
+  font-family: $font; font-size: 0.85rem; cursor: pointer;
+  transition: all 0.2s;
+
+  &--primary {
+    background: rgba(0,0,0,0.8); color: #fff; border: none;
+    &:hover { background: rgba(0,0,0,0.95); }
+    &:disabled { opacity: 0.4; cursor: not-allowed; }
+  }
+
+  &--ghost {
+    background: $burgundy-faint; color: $burgundy;
+    border: 0.5px solid $burgundy-border;
+    &:hover { background: rgba(114,0,0,0.12); }
+  }
+
+  &--danger {
+    background: transparent; color: rgba(180,0,0,0.5);
+    border: 0.5px solid rgba(180,0,0,0.2);
+    &:hover { background: rgba(180,0,0,0.07); color: rgba(180,0,0,0.8); }
+  }
+}
+
+/* Пустое состояние */
+.creator-empty {
+  text-align: center; padding: 80px 20px;
+  display: flex; flex-direction: column; align-items: center; gap: 20px;
+
+  p { font-size: 1rem; color: rgba(0,0,0,0.25); }
+}
+
+/* Сетка мудбордов */
+.creator-frames-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.creator-frame-card {
+  background: rgba(255,255,255,0.7);
+  border: 0.5px solid rgba(0,0,0,0.1);
+  border-radius: 16px; overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+  &.draft { opacity: 0.65; }
+}
+
+.creator-frame-thumb {
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(135deg, $burgundy-faint, rgba(114,0,0,0.12));
+}
+
+.creator-frame-info {
+  padding: 14px 16px; display: flex; flex-direction: column; gap: 8px;
+}
+
+.creator-frame-top {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+}
+
+.creator-frame-title {
+  font-size: 0.95rem; font-weight: 600; color: rgba(0,0,0,0.82);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.creator-frame-badge {
+  font-size: 0.7rem; padding: 3px 10px; border-radius: 100px; flex-shrink: 0;
+  &.published { background: rgba(0,120,0,0.08); color: rgba(0,100,0,0.7); border: 0.5px solid rgba(0,120,0,0.2); }
+  &.draft { background: $burgundy-faint; color: $burgundy; border: 0.5px solid $burgundy-border; }
+}
+
+.creator-frame-desc {
+  font-size: 0.82rem; color: rgba(0,0,0,0.4);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.creator-frame-tags {
+  display: flex; gap: 4px; flex-wrap: wrap;
+}
+
+.creator-frame-tag {
+  font-size: 0.72rem; padding: 2px 9px; border-radius: 100px;
+  background: $burgundy-faint; color: rgba(114,0,0,0.55);
+  border: 0.5px solid $burgundy-border;
+}
+
+.creator-frame-actions {
+  display: flex; gap: 8px; margin-top: 4px;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .creator-dashboard { flex-direction: column; }
+
+  .creator-sidebar {
+    width: 100%; height: auto; position: static;
+    border-right: none; border-bottom: 0.5px solid rgba(0,0,0,0.08);
+    padding: 20px 16px; gap: 16px;
+    flex-direction: row; flex-wrap: wrap; align-items: center;
+  }
+
+  .creator-profile { flex-direction: row; text-align: left; padding: 0; border: none; }
+  .creator-stats { gap: 20px; }
+  .creator-logout-btn { margin-top: 0; }
+  .creator-main { padding: 20px 16px; }
+  .creator-frames-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+}

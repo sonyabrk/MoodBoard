@@ -14,7 +14,6 @@ function LoginButton() {
     const token = localStorage.getItem('authToken');
     const storedUsername = localStorage.getItem('username');
     const storedRole = localStorage.getItem('userRole');
-
     if (token && storedUsername) {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       setIsLoggedIn(true);
@@ -24,6 +23,10 @@ function LoginButton() {
   }, []);
 
   const handleLoginSuccess = (data) => {
+    localStorage.setItem('authToken', data.access_token);
+    localStorage.setItem('userRole', data.role);
+    localStorage.setItem('username', data.username);
+
     setIsLoggedIn(true);
     setUsername(data.username);
     setRole(data.role);
@@ -31,6 +34,8 @@ function LoginButton() {
     if (data.role === 'admin') {
       localStorage.setItem('adminToken', data.access_token);
       navigate('/admin', { replace: true });
+    } else if (data.role === 'creator') {
+      navigate('/creator', { replace: true });
     }
   };
 
@@ -45,11 +50,9 @@ function LoginButton() {
   };
 
   const handleLoggedInClick = () => {
-    if (role === 'admin') {
-      navigate('/admin');
-    } else {
-      handleLogout();
-    }
+    if (role === 'admin') navigate('/admin');
+    else if (role === 'creator') navigate('/creator');
+    else handleLogout();
   };
 
   if (isLoggedIn) {
@@ -57,11 +60,9 @@ function LoginButton() {
       <div
         className="login-button-logged-in"
         onClick={handleLoggedInClick}
-        title={role === 'admin' ? 'Открыть админ-панель' : 'Выйти'}
+        title={role === 'admin' ? 'Админ-панель' : 'Личный кабинет'}
       >
-        <div className="login-avatar">
-          {username.charAt(0).toUpperCase()}
-        </div>
+        <div className="login-avatar">{username.charAt(0).toUpperCase()}</div>
         <div className="login-info">
           <div className="login-username">{username}</div>
           <div className="login-role">{role === 'admin' ? 'Админ' : 'Креатор'}</div>
@@ -79,7 +80,6 @@ function LoginButton() {
       >
         <span className="login-button-icon">●</span>
       </button>
-
       <LoginModal
         isOpen={showLoginModal}
         onClose={() => setShowLoginModal(false)}
