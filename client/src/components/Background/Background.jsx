@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import Grainient from './Grainient';
+import Grainient from '../Grainient/Grainient';
 import './Background.scss';
 
 function Background() {

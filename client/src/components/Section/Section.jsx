@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import ProjectModal from './ProjectModal';
-import CreatorFormModal from './CreatorFormModal';
+import ProjectModal from '../ProjectModal/ProjectModal';
+import CreatorFormModal from '../CreatorFormModal/CreatorFormModal';
 import './Section.scss';
 
 const Section = () => {

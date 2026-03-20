@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { api } from '../../src/services/api';
+import { api } from '../../services/api';
 import './CreatorFormModal.scss';
 
 function CreatorFormModal({ isOpen, onClose }) {

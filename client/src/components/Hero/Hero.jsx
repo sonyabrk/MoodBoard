@@ -1,5 +1,5 @@
-import LoginButton from './LoginButthon';
-import SearchButton from './SearchButton';
+import LoginButton from '../LoginButton/LoginButthon';
+import SearchButton from '../SearchButton/SearchButton';
 import './Hero.scss';
 
 function Hero() {

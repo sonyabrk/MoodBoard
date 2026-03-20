@@ -1,4 +1,4 @@
-import CircularText from './CircularText';
+import CircularText from '../CircularText/CircularText';
 import './About.scss';
 
 function About() {

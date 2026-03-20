@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LoginModal from './LoginModal';
+import LoginModal from '../LoginModal/LoginModal';
 import './LoginButton.scss';
 
 function LoginButton() {
