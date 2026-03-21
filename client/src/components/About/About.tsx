@@ -1,11 +1,10 @@
-import CircularText from '../CircularText/CircularText';
-import './About.scss';
+import CircularText from '../CircularText/CircularText'
+import './About.scss'
 
 function About() {
   return (
     <section className="about-section">
       <div className="about-container">
-        
         <div className="about-right">
           <div className="about-text-column">
             <p className="about-text">место, где рождаются идеи</p>
@@ -13,7 +12,6 @@ function About() {
             <p className="about-text">место, где каждый день — это новая история</p>
           </div>
         </div>
-
         <div className="about-left">
           <CircularText
             text="★★★★★★★★★"
@@ -22,10 +20,9 @@ function About() {
             className="custom-circular"
           />
         </div>
-
       </div>
     </section>
-  );
+  )
 }
 
-export default About;
+export default About
