@@ -1,4 +1,4 @@
-  .admin-dashboard {
+.admin-dashboard {
   min-height: 100vh;
   background: #1a1a1a;
   color: white;
@@ -308,4 +308,84 @@
     background: rgba(255, 255, 255, 0.08);
     color: white;
   }
+}
+
+.admin-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 0 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  margin-bottom: 0;
+}
+
+.admin-tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 24px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: rgba(255,255,255,0.4);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: -1px;
+
+  &:hover { color: rgba(255,255,255,0.7); }
+
+  &.active {
+    color: white;
+    border-bottom-color: rgb(120, 4, 4);
+  }
+}
+
+.admin-tab-badge {
+  background: rgba(120,4,4,0.7);
+  color: white;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 100px;
+  font-weight: 600;
+}
+
+.admin-tab.active .admin-tab-badge {
+  background: rgb(120,4,4);
+}
+
+.delete-btn {
+  background: rgba(180, 40, 40, 0.2) !important;
+  color: #ff6b6b !important;
+  border: 1px solid rgba(255,107,107,0.3) !important;
+  &:hover { background: rgba(180,40,40,0.35) !important; }
+}
+
+.modal-btn.delete-btn {
+  background: linear-gradient(135deg, rgba(200,40,40,0.9), rgba(255,80,80,0.9)) !important;
+  color: white !important;
+  border: none !important;
+}
+
+.app-row.status-rejected td {
+  opacity: 0.55;
+}
+
+.admin-header-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.admin-back-btn {
+  background: none;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.6);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  &:hover { background: rgba(255,255,255,0.08); color: white; }
 }
