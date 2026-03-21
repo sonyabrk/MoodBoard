@@ -9,6 +9,7 @@ import BoardView from './pages/BoardView';
 import SetPassword from './pages/SetPassword';
 import AdminLogin from './pages/AdminLogin';
 import Search from './pages/Search';
+import CreatorProfile from './pages/CreatorProfile';
 
 function App() {
   return (
@@ -22,6 +23,8 @@ function App() {
           <Route path="/editor" element={<MoodboardEditor />} />
           <Route path="/editor/:frameId" element={<MoodboardEditor />} />
           <Route path="/boards/:frameId" element={<BoardView />} />
+          <Route path="/profile/:username" element={<CreatorProfile />} />
+
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/set-password" element={<SetPassword />} />

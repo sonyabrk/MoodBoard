@@ -1,0 +1,138 @@
+$font: 'Soledago', sans-serif;
+$burgundy: rgba(114, 0, 0, 0.85);
+$burgundy-faint: rgba(114, 0, 0, 0.07);
+$burgundy-border: rgba(114, 0, 0, 0.18);
+
+.cp-loading, .cp-error {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 16px;
+  font-family: $font; color: rgba(0,0,0,0.3);
+  background: rgba(255,255,255,0.93); backdrop-filter: blur(24px);
+  button {
+    padding: 10px 20px; border-radius: 100px;
+    border: 1px solid rgba(0,0,0,0.2); background: none;
+    font-family: $font; cursor: pointer; color: rgba(0,0,0,0.6);
+  }
+}
+
+.cp-page {
+  min-height: 100vh;
+  background: rgba(255,255,255,0.93);
+  backdrop-filter: blur(24px);
+  font-family: $font;
+}
+
+.cp-header {
+  position: sticky; top: 0; z-index: 10;
+  padding: 20px 36px;
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(16px);
+  border-bottom: 0.5px solid rgba(0,0,0,0.07);
+  display: flex; flex-direction: column; gap: 16px;
+}
+
+.cp-back-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 9px 18px; border-radius: 100px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(0,0,0,0.45);
+  font-family: $font; font-size: 0.9rem;
+  color: rgba(0,0,0,0.65); cursor: pointer;
+  align-self: flex-start;
+  transition: background 0.2s;
+  svg { width: 14px; height: 14px; }
+  &:hover { background: rgba(0,0,0,0.05); }
+}
+
+.cp-profile {
+  display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+}
+
+.cp-avatar {
+  width: 60px; height: 60px; border-radius: 50%;
+  background: rgba(0,0,0,0.55); border: 1px solid rgba(0,0,0,0.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; font-weight: 600; color: rgba(255,255,255,0.85);
+  flex-shrink: 0;
+}
+
+.cp-info {
+  display: flex; flex-direction: column; gap: 3px;
+}
+
+.cp-name {
+  font-size: 1.3rem; font-weight: 700; color: rgba(0,0,0,0.85);
+}
+
+.cp-username {
+  font-size: 0.85rem; color: rgba(0,0,0,0.4);
+}
+
+.cp-portfolio {
+  font-size: 0.8rem; color: $burgundy; text-decoration: none;
+  border-bottom: 0.5px solid $burgundy-border;
+  &:hover { border-color: $burgundy; }
+}
+
+.cp-stat {
+  margin-left: auto;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+}
+
+.cp-stat-num {
+  font-size: 1.5rem; font-weight: 700; color: rgba(0,0,0,0.8);
+}
+
+.cp-stat-label {
+  font-size: 0.75rem; color: rgba(0,0,0,0.35);
+}
+
+.cp-main {
+  padding: 32px 36px;
+}
+
+.cp-empty {
+  text-align: center; padding: 80px;
+  color: rgba(0,0,0,0.2); font-size: 1rem;
+}
+
+.cp-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.cp-card {
+  border-radius: 16px; overflow: hidden;
+  background: rgba(255,255,255,0.7);
+  border: 0.5px solid rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  &:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+}
+
+.cp-card-preview { overflow: hidden; }
+
+.cp-card-info {
+  padding: 12px 16px; display: flex; flex-direction: column; gap: 6px;
+}
+
+.cp-card-title {
+  font-size: 0.92rem; font-weight: 600; color: rgba(0,0,0,0.82);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.cp-card-tags { display: flex; gap: 4px; flex-wrap: wrap; }
+
+.cp-card-tag {
+  font-size: 0.72rem; padding: 2px 9px; border-radius: 100px;
+  background: $burgundy-faint; color: rgba(114,0,0,0.55);
+  border: 0.5px solid $burgundy-border;
+}
+
+@media (max-width: 768px) {
+  .cp-header { padding: 14px 16px; }
+  .cp-main { padding: 16px; }
+  .cp-grid { grid-template-columns: 1fr; }
+}
