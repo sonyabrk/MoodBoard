@@ -3,20 +3,19 @@ import Grainient from '../Grainient/Grainient';
 import './Background.scss';
 
 function Background() {
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const adjustHeight = () => {
+    const adjustHeight = (): void => {
       if (containerRef.current) {
-        const contentHeight = document.documentElement.scrollHeight;
-        containerRef.current.style.height = `${contentHeight}px`;
+        const contentHeight = document.documentElement.scrollHeight
+        containerRef.current.style.height = `${contentHeight}px`
       }
-    };
-
-    adjustHeight();
-    window.addEventListener('resize', adjustHeight);
-    return () => window.removeEventListener('resize', adjustHeight);
-  }, []);
+    }
+    adjustHeight()
+    window.addEventListener('resize', adjustHeight)
+    return () => window.removeEventListener('resize', adjustHeight)
+  }, [])
 
   return (
     <div ref={containerRef} className="background-wrapper">
