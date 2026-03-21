@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import type { LayoutItem } from '../types'
+import type { LayoutItem } from '../../types'
 import './MoodboardEditor.scss'
 
 const API = 'http://localhost:8000'

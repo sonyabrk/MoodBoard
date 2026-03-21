@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import BoardPreview from '../components/BoardPreview/BoardPreview'
-import type { FramePublic, Tag, Creator } from '../types'
+import BoardPreview from '../../components/BoardPreview/BoardPreview'
+import type { FramePublic, Tag, Creator } from '../../types'
 import './Search.scss'
 
 const API = 'http://localhost:8000'

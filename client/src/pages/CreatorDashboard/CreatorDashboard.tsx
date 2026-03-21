@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import BoardPreview from '../components/BoardPreview/BoardPreview'
-import type { Creator, Frame } from '../types'
+import BoardPreview from '../../components/BoardPreview/BoardPreview'
+import type { Creator, Frame } from '../../types'
 import './CreatorDashboard.scss'
 
 const API = 'http://localhost:8000'

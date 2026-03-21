@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import type { BoardPublic, LayoutItem } from '../types'
+import type { BoardPublic, LayoutItem } from '../../types'
 import './BoardView.scss'
 
 const API = 'http://localhost:8000'

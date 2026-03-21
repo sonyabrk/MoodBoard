@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import type { CreatorApplication, Creator } from '../types'
+import type { CreatorApplication, Creator } from '../../types'
 import './AdminDashboard.scss'
 
 const API = 'http://localhost:8000'

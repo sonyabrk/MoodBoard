@@ -1,15 +1,15 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import Background from './components/Background/Background';
-import Home from './pages/Home';
-import AdminDashboard from './pages/AdminDashboard';
-import CreatorDashboard from './pages/CreatorDashboard';
-import MoodboardEditor from './pages/MoodboardEditor';
-import BoardView from './pages/BoardView';
-import SetPassword from './pages/SetPassword';
-import AdminLogin from './pages/AdminLogin';
-import Search from './pages/Search';
-import CreatorProfile from './pages/CreatorProfile';
+import Home from './pages/Home/Home';
+import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
+import CreatorDashboard from './pages/CreatorDashboard/CreatorDashboard';
+import MoodboardEditor from './pages/MoodboardEditor/MoodboardEditor';
+import BoardView from './pages/BoardView/BoardView';
+import SetPassword from './pages/SetPassword/SetPassword';
+import AdminLogin from './pages/AdminLogin/AdminLogin';
+import Search from './pages/Search/Search';
+import CreatorProfile from './pages/CreatorProfile/CreatorProfile';
 
 function App() {
   return (

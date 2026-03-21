@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import BoardPreview from '../components/BoardPreview/BoardPreview'
-import type { CreatorPublic } from '../types'
+import BoardPreview from '../../components/BoardPreview/BoardPreview'
+import type { CreatorPublic } from '../../types'
 import './CreatorProfile.scss'
 
 const API = 'http://localhost:8000'
