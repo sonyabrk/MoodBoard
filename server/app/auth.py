@@ -84,6 +84,6 @@ async def get_current_creator(
         raise credentials_exception
 
     creator = db.query(models.Creator).filter(models.Creator.username == username).first()
-    if creator is None:
+    if creator is None or not creator.is_active:  
         raise credentials_exception
     return creator
