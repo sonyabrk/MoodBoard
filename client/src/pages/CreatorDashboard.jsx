@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './CreatorDashboard.scss';
+import BoardPreview from '../components/BoardPreview/BoardPreview';
 
 const API = 'http://localhost:8000';
 
@@ -22,7 +23,6 @@ function CreatorDashboard() {
     const role = localStorage.getItem('userRole');
     if (role !== 'creator') { navigate('/'); return; }
 
-    // Загружаем профиль и доски параллельно
     Promise.all([
       fetch(`${API}/api/creators/me`, {
         headers: { Authorization: `Bearer ${token}` }
@@ -194,7 +194,7 @@ function CreatorDashboard() {
         <div className="creator-frames-grid">
           {frames.map(frame => (
             <div key={frame.id} className={`creator-frame-card ${!frame.is_published ? 'draft' : ''}`}>
-              <div className="creator-frame-thumb" />
+              <div className="creator-frame-thumb"><BoardPreview layout={frame.layout} /></div>
               <div className="creator-frame-info">
                 <div className="creator-frame-top">
                   <span className="creator-frame-title">{frame.title}</span>

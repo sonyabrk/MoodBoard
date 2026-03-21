@@ -1,8 +1,3 @@
-@font-face {
-  font-family: 'Soledago';
-  src: url('/fonts/Soledago.ttf') format('truetype');
-}
-
 $font: 'Soledago', sans-serif;
 $burgundy: rgba(114, 0, 0, 0.85);
 $burgundy-faint: rgba(114, 0, 0, 0.07);
@@ -27,7 +22,6 @@ $border: rgba(0, 0, 0, 0.5);
   font-family: $font;
 }
 
-/* ── Сайдбар ── */
 .creator-sidebar {
   width: 260px;
   flex-shrink: 0;
@@ -110,7 +104,6 @@ $border: rgba(0, 0, 0, 0.5);
   &:hover { background: rgba(114,0,0,0.12); }
 }
 
-/* ── Основной контент ── */
 .creator-main {
   flex: 1; padding: 36px 40px; overflow-y: auto;
 }
@@ -134,7 +127,6 @@ $border: rgba(0, 0, 0, 0.5);
   &:hover { background: rgba(255,255,255,0.14); }
 }
 
-/* Форма создания */
 .creator-new-frame {
   background: rgba(255,255,255,0.7);
   border: 0.5px solid rgba(0,0,0,0.1);
@@ -157,7 +149,6 @@ $border: rgba(0, 0, 0, 0.5);
   display: flex; gap: 10px;
 }
 
-/* Кнопки */
 .creator-btn {
   padding: 8px 18px; border-radius: 100px;
   font-family: $font; font-size: 0.85rem; cursor: pointer;
@@ -182,7 +173,6 @@ $border: rgba(0, 0, 0, 0.5);
   }
 }
 
-/* Пустое состояние */
 .creator-empty {
   text-align: center; padding: 80px 20px;
   display: flex; flex-direction: column; align-items: center; gap: 20px;
@@ -190,10 +180,9 @@ $border: rgba(0, 0, 0, 0.5);
   p { font-size: 1rem; color: rgba(0,0,0,0.25); }
 }
 
-/* Сетка мудбордов */
 .creator-frames-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 16px;
 }
 
@@ -208,7 +197,7 @@ $border: rgba(0, 0, 0, 0.5);
 }
 
 .creator-frame-thumb {
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 3 / 2;
   background: linear-gradient(135deg, $burgundy-faint, rgba(114,0,0,0.12));
 }
 

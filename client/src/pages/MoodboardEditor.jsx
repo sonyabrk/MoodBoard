@@ -5,6 +5,9 @@ import './MoodboardEditor.scss';
 const API = 'http://localhost:8000';
 const CANVAS_W = 1200;
 const CANVAS_H = 800;
+const SCALE_STEP = 0.1;
+const SCALE_MIN = 0.3;
+const SCALE_MAX = 2;
 
 function MoodboardEditor() {
   const { frameId } = useParams();
@@ -19,6 +22,7 @@ function MoodboardEditor() {
   const [saved, setSaved] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [tags, setTags] = useState('');
+  const [scale, setScale] = useState(0.8);
 
   const dragState = useRef(null);
   const resizeState = useRef(null);
@@ -40,68 +44,78 @@ function MoodboardEditor() {
             console.error('Ошибка парсинга layout:', err);
           }
         }
-      });
+      })
+      .catch(err => console.error('Ошибка загрузки мудборда:', err));
   }, [frameId, token]);
 
-    const onItemMouseDown = useCallback((e, id, item) => {
-        if (e.target.classList.contains('resize-handle')) return;
-        e.preventDefault();
-        e.stopPropagation();
-        setSelected(id);
-        dragState.current = {
-            id,
-            startX: e.clientX,
-            startY: e.clientY,
-            origX: item.x,
-            origY: item.y,
-        };
-    }, []); 
+  const zoomIn = () => setScale(s => Math.min(SCALE_MAX, +(s + SCALE_STEP).toFixed(1)));
+  const zoomOut = () => setScale(s => Math.max(SCALE_MIN, +(s - SCALE_STEP).toFixed(1)));
 
-    const onMouseMove = useCallback((e) => {
-        if (dragState.current) {
-            const drag = dragState.current; 
-            if (!drag) return;              
-            const dx = e.clientX - drag.startX;
-            const dy = e.clientY - drag.startY;
-            setItems(prev => prev.map(item =>
-                item.id === drag.id
-                ? { ...item, x: Math.max(0, drag.origX + dx), y: Math.max(0, drag.origY + dy) }
-                : item
-            ));
-        }
-        if (resizeState.current) {
-            const resize = resizeState.current; 
-            if (!resize) return;
-            const dx = e.clientX - resize.startX;
-            const dy = e.clientY - resize.startY;
-            setItems(prev => prev.map(item =>
-                item.id === resize.id
-                ? {
-                    ...item,
-                    width: Math.max(80, resize.origW + dx),
-                    height: Math.max(80, resize.origH + dy)
-                    }
-                : item
-            ));
-        }
-    }, []);
+  // Клавиатурные шорткаты Cmd/Ctrl + / -
+  useEffect(() => {
+    const handleKey = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === '=') { e.preventDefault(); zoomIn(); }
+      if ((e.metaKey || e.ctrlKey) && e.key === '-') { e.preventDefault(); zoomOut(); }
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, []);
+
+  const onItemMouseDown = useCallback((e, id, item) => {
+    if (e.target.classList.contains('resize-handle')) return;
+    e.preventDefault();
+    e.stopPropagation();
+    setSelected(id);
+    dragState.current = {
+      id,
+      startX: e.clientX,
+      startY: e.clientY,
+      origX: item.x,
+      origY: item.y,
+    };
+  }, []);
+
+  const onMouseMove = useCallback((e) => {
+    if (dragState.current) {
+      const drag = dragState.current;
+      if (!drag) return;
+      const dx = (e.clientX - drag.startX) / scale;
+      const dy = (e.clientY - drag.startY) / scale;
+      setItems(prev => prev.map(item =>
+        item.id === drag.id
+          ? { ...item, x: Math.max(0, drag.origX + dx), y: Math.max(0, drag.origY + dy) }
+          : item
+      ));
+    }
+    if (resizeState.current) {
+      const resize = resizeState.current;
+      if (!resize) return;
+      const dx = (e.clientX - resize.startX) / scale;
+      const dy = (e.clientY - resize.startY) / scale;
+      setItems(prev => prev.map(item =>
+        item.id === resize.id
+          ? { ...item, width: Math.max(80, resize.origW + dx), height: Math.max(80, resize.origH + dy) }
+          : item
+      ));
+    }
+  }, [scale]);
 
   const onMouseUp = useCallback(() => {
     dragState.current = null;
     resizeState.current = null;
   }, []);
 
-    const onResizeMouseDown = useCallback((e, id, item) => {
-        e.preventDefault();
-        e.stopPropagation();
-        resizeState.current = {
-            id,
-            startX: e.clientX,
-            startY: e.clientY,
-            origW: item.width,
-            origH: item.height,
-        };
-    }, []);
+  const onResizeMouseDown = useCallback((e, id, item) => {
+    e.preventDefault();
+    e.stopPropagation();
+    resizeState.current = {
+      id,
+      startX: e.clientX,
+      startY: e.clientY,
+      origW: item.width,
+      origH: item.height,
+    };
+  }, []);
 
   const handleFileUpload = async (e) => {
     const files = Array.from(e.target.files);
@@ -121,8 +135,8 @@ function MoodboardEditor() {
           const newItem = {
             id: Date.now().toString() + Math.random(),
             url: data.url,
-            x: 50 + items.length * 20,
-            y: 50 + items.length * 20,
+            x: 50 + Math.random() * 100,
+            y: 50 + Math.random() * 100,
             width: 300,
             height: 400,
           };
@@ -172,8 +186,11 @@ function MoodboardEditor() {
     body.append('title', title);
     body.append('layout', layout);
     body.append('is_published', publish.toString());
-    if (tags.trim()) body.append('tag_names', JSON.stringify(tags.split(',').map(t => t.trim()).filter(Boolean)));
-
+    if (tags.trim()) {
+      body.append('tag_names', JSON.stringify(
+        tags.split(',').map(t => t.trim()).filter(Boolean)
+      ));
+    }
     try {
       let r;
       if (frameId) {
@@ -197,18 +214,16 @@ function MoodboardEditor() {
           navigate(`/editor/${data.id}`, { replace: true });
         }
       }
+    } catch (err) {
+      console.error('Ошибка сохранения:', err);
     } finally {
       setSaving(false);
     }
   };
 
   return (
-    <div
-      className="editor-page"
-      onMouseMove={onMouseMove}
-      onMouseUp={onMouseUp}
-    >
-      {/* ── Панель справа ── */}
+    <div className="editor-page" onMouseMove={onMouseMove} onMouseUp={onMouseUp}>
+
       <aside className="editor-panel">
         <button className="editor-back-btn" onClick={() => navigate('/creator')}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -265,18 +280,10 @@ function MoodboardEditor() {
         )}
 
         <div className="editor-actions">
-          <button
-            className="editor-save-btn draft"
-            onClick={() => handleSave(false)}
-            disabled={saving}
-          >
+          <button className="editor-save-btn draft" onClick={() => handleSave(false)} disabled={saving}>
             {saving ? 'сохраняю...' : saved ? '✓ сохранено' : 'сохранить черновик'}
           </button>
-          <button
-            className="editor-save-btn publish"
-            onClick={() => handleSave(true)}
-            disabled={saving}
-          >
+          <button className="editor-save-btn publish" onClick={() => handleSave(true)} disabled={saving}>
             опубликовать
           </button>
         </div>
@@ -287,34 +294,41 @@ function MoodboardEditor() {
         </p>
       </aside>
 
-      {/* Холст */}
       <div className="editor-canvas-wrap">
-        <div
-          ref={canvasRef}
-          className="editor-canvas"
-          style={{ width: CANVAS_W, height: CANVAS_H }}
-          onClick={() => setSelected(null)}
-        >
-          {items.map(item => (
-            <div
-              key={item.id}
-              className={`editor-item ${selected === item.id ? 'selected' : ''}`}
-              style={{ left: item.x, top: item.y, width: item.width, height: item.height }}
-              onMouseDown={e => onItemMouseDown(e, item.id, item)}
-            >
-              <img src={item.url} alt="" draggable={false} />
-              <div
-                className="resize-handle"
-                onMouseDown={e => onResizeMouseDown(e, item.id, item)}
-              />
-            </div>
-          ))}
+        {/* Кнопки масштаба */}
+        <div className="editor-zoom-controls">
+          <button className="editor-zoom-btn" onClick={zoomOut} title="Уменьшить (Cmd/Ctrl -)">−</button>
+          <span className="editor-zoom-label">{Math.round(scale * 100)}%</span>
+          <button className="editor-zoom-btn" onClick={zoomIn} title="Увеличить (Cmd/Ctrl +)">+</button>
+        </div>
 
-          {items.length === 0 && (
-            <div className="editor-canvas-empty">
-              добавьте фото через панель справа
-            </div>
-          )}
+        <div className="editor-canvas-scaler" style={{ transform: `scale(${scale})`, transformOrigin: 'top left' }}>
+          <div
+            ref={canvasRef}
+            className="editor-canvas"
+            style={{ width: CANVAS_W, height: CANVAS_H }}
+            onClick={() => setSelected(null)}
+          >
+            {items.map(item => (
+              <div
+                key={item.id}
+                className={`editor-item ${selected === item.id ? 'selected' : ''}`}
+                style={{ left: item.x, top: item.y, width: item.width, height: item.height }}
+                onMouseDown={e => onItemMouseDown(e, item.id, item)}
+              >
+                <img src={item.url} alt="" draggable={false} />
+                <div
+                  className="resize-handle"
+                  onMouseDown={e => onResizeMouseDown(e, item.id, item)}
+                />
+              </div>
+            ))}
+            {items.length === 0 && (
+              <div className="editor-canvas-empty">
+                добавьте фото через панель справа
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

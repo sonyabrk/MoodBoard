@@ -1,7 +1,3 @@
-@font-face {
-  font-family: 'Soledago';
-  src: url('/fonts/Soledago.ttf') format('truetype');
-}
 $font: 'Soledago', sans-serif;
 $burgundy: rgba(114, 0, 0, 0.85);
 $burgundy-faint: rgba(114, 0, 0, 0.07);
@@ -72,7 +68,7 @@ $burgundy-border: rgba(114, 0, 0, 0.18);
 }
 
 .editor-hint {
-  font-size: 0.75rem; color: rgba(0,0,0,0.75); line-height: 1.5;
+  font-size: 0.75rem; color: rgba(0,0,0,0.8); line-height: 1.5;
   &.center { text-align: center; margin-top: auto; }
 }
 
@@ -116,7 +112,6 @@ $burgundy-border: rgba(114, 0, 0, 0.18);
   &:disabled { opacity: 0.5; cursor: not-allowed; }
 }
 
-/* ── Холст ── */
 .editor-canvas-wrap {
   flex: 1; overflow: auto; order: 1;
   display: flex; align-items: flex-start; justify-content: flex-start;
@@ -175,3 +170,53 @@ $burgundy-border: rgba(114, 0, 0, 0.18);
 }
 
 .editor-item.selected .resize-handle { opacity: 1; }
+
+.editor-zoom-controls {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(12px);
+  border: 0.5px solid rgba(0,0,0,0.12);
+  border-radius: 100px;
+  padding: 6px 14px;
+  z-index: 20;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+.editor-zoom-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 0.5px solid rgba(0,0,0,0.15);
+  background: transparent;
+  font-size: 18px;
+  line-height: 1;
+  color: rgba(0,0,0,0.6);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  &:hover { background: rgba(0,0,0,0.06); }
+}
+
+.editor-zoom-label {
+  font-family: $font;
+  font-size: 0.8rem;
+  color: rgba(0,0,0,0.45);
+  min-width: 36px;
+  text-align: center;
+}
+
+.editor-canvas-scaler {
+  display: inline-block;
+}
+
+.editor-canvas-wrap {
+  position: relative;
+}
