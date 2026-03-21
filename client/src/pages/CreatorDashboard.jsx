@@ -22,6 +22,7 @@ function CreatorDashboard() {
     const role = localStorage.getItem('userRole');
     if (role !== 'creator') { navigate('/'); return; }
 
+    // Загружаем профиль и доски параллельно
     Promise.all([
       fetch(`${API}/api/creators/me`, {
         headers: { Authorization: `Bearer ${token}` }
@@ -81,24 +82,12 @@ function CreatorDashboard() {
     if (r.ok) setFrames(prev => prev.filter(f => f.id !== frameId));
   };
 
-  const handleTogglePublish = async (frameId) => {
-    const r = await fetch(`${API}/api/creators/me/frames/${frameId}`, {
-      method: 'PATCH',
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    if (r.ok) {
-      const data = await r.json();
-      setFrames(prev => prev.map(f =>
-        f.id === frameId ? { ...f, is_published: data.is_published } : f
-      ));
-    }
-  };
-
   if (loading) return <div className="creator-loading">загрузка...</div>;
 
   return (
     <div className="creator-dashboard">
 
+      {/* Сайдбар */}
       <aside className="creator-sidebar">
         <button className="creator-back-btn" onClick={() => navigate('/')}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -226,10 +215,18 @@ function CreatorDashboard() {
                 <div className="creator-frame-actions">
                   <button
                     className="creator-btn creator-btn--ghost"
-                    onClick={() => handleTogglePublish(frame.id)}
+                    onClick={() => navigate(`/editor/${frame.id}`)}
                   >
-                    {frame.is_published ? 'скрыть' : 'опубликовать'}
+                    редактировать
                   </button>
+                  {frame.is_published && (
+                    <button
+                      className="creator-btn creator-btn--ghost"
+                      onClick={() => navigate(`/boards/${frame.id}`)}
+                    >
+                      просмотр
+                    </button>
+                  )}
                   <button
                     className="creator-btn creator-btn--danger"
                     onClick={() => handleDelete(frame.id)}

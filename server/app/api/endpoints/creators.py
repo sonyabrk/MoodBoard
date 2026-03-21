@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from pydantic import BaseModel, EmailStr, HttpUrl
 from typing import List, Optional
 from datetime import datetime, timedelta
-import secrets, os, uuid, shutil
+import secrets, os, uuid, shutil, json
 from ...database import get_db
 from ... import models
 from ...auth import verify_password, create_access_token, get_password_hash, get_current_creator
@@ -38,16 +38,7 @@ class CreatorProfile(BaseModel):
     class Config:
         from_attributes = True
 
-class CreatorFrameOut(BaseModel):
-    id: int
-    title: str
-    description: Optional[str]
-    is_published: bool
-    created_at: datetime
-    tags: List[dict] = []
-    class Config:
-        from_attributes = True
-
+# ── Публичные ─────────────────────────────────────────────
 @router.post("/check-username")
 async def check_username(data: UsernameCheck, db: Session = Depends(get_db)):
     existing = db.query(models.CreatorApplication).filter(
@@ -60,19 +51,14 @@ async def check_username(data: UsernameCheck, db: Session = Depends(get_db)):
     return {"available": True, "message": "Юзернейм доступен"}
 
 @router.post("/applications")
-async def create_application(
-    application: CreatorApplicationCreate,
-    db: Session = Depends(get_db)
-):
+async def create_application(application: CreatorApplicationCreate, db: Session = Depends(get_db)):
     existing = db.query(models.CreatorApplication).filter(
         models.CreatorApplication.username == application.username
     ).first()
     if existing:
         raise HTTPException(status_code=400, detail="Такой юзернейм уже существует")
-
     activation_token = secrets.token_urlsafe(32)
     token_expires_at = datetime.utcnow() + timedelta(days=7)
-
     db_app = models.CreatorApplication(
         first_name=application.first_name,
         last_name=application.last_name,
@@ -91,7 +77,6 @@ async def create_application(
 async def set_password(request: SetPasswordRequest, db: Session = Depends(get_db)):
     if len(request.password) < 6:
         raise HTTPException(status_code=400, detail="Пароль не менее 6 символов")
-
     application = db.query(models.CreatorApplication).filter(
         models.CreatorApplication.activation_token == request.token
     ).first()
@@ -101,7 +86,6 @@ async def set_password(request: SetPasswordRequest, db: Session = Depends(get_db
         raise HTTPException(status_code=400, detail="Срок действия ссылки истёк")
     if application.password_set:
         raise HTTPException(status_code=400, detail="Пароль уже установлен")
-
     creator = models.Creator(
         username=application.username,
         email=application.email,
@@ -117,41 +101,63 @@ async def set_password(request: SetPasswordRequest, db: Session = Depends(get_db
     return {"message": "Пароль установлен!", "username": application.username}
 
 @router.post("/login")
-async def unified_login(
-    username: str = Form(...),
-    password: str = Form(...),
-    db: Session = Depends(get_db)
-):
+async def unified_login(username: str = Form(...), password: str = Form(...), db: Session = Depends(get_db)):
     admin = db.query(models.Admin).filter(models.Admin.username == username).first()
     if admin and verify_password(password, admin.password_hash):
-        token = create_access_token(
-            data={"sub": admin.username, "role": "admin"},
-            expires_delta=timedelta(hours=24)
-        )
-        return {"access_token": token, "token_type": "bearer",
-                "username": admin.username, "role": "admin"}
-
+        token = create_access_token(data={"sub": admin.username, "role": "admin"}, expires_delta=timedelta(hours=24))
+        return {"access_token": token, "token_type": "bearer", "username": admin.username, "role": "admin"}
     creator = db.query(models.Creator).filter(models.Creator.username == username).first()
     if creator and verify_password(password, creator.password_hash):
-        token = create_access_token(
-            data={"sub": creator.username, "role": "creator"},
-            expires_delta=timedelta(hours=24)
-        )
-        return {"access_token": token, "token_type": "bearer",
-                "username": creator.username, "role": "creator",
-                "first_name": creator.first_name}
-
+        token = create_access_token(data={"sub": creator.username, "role": "creator"}, expires_delta=timedelta(hours=24))
+        return {"access_token": token, "token_type": "bearer", "username": creator.username, "role": "creator", "first_name": creator.first_name}
     raise HTTPException(status_code=401, detail="Неверный логин или пароль")
 
+# ── Публичный просмотр мудборда ────────────────────────────
+@router.get("/boards/{frame_id}")
+async def get_board_public(frame_id: int, db: Session = Depends(get_db)):
+    frame = db.query(models.Frame).filter(
+        models.Frame.id == frame_id,
+        models.Frame.is_published == True
+    ).first()
+    if not frame:
+        raise HTTPException(status_code=404, detail="Мудборд не найден")
+    creator = None
+    if frame.creator_id:
+        c = db.query(models.Creator).filter(models.Creator.id == frame.creator_id).first()
+        if c:
+            creator = {"username": c.username, "first_name": c.first_name, "last_name": c.last_name}
+    return {
+        "id": frame.id,
+        "title": frame.title,
+        "description": frame.description,
+        "layout": frame.layout,
+        "tags": [{"id": t.id, "name": t.name} for t in frame.tags],
+        "creator": creator,
+        "created_at": frame.created_at,
+    }
+
+# ── Защищённые эндпоинты ЛК ───────────────────────────────
 @router.get("/me", response_model=CreatorProfile)
 async def get_me(current_creator: models.Creator = Depends(get_current_creator)):
     return current_creator
 
-@router.get("/me/frames")
-async def get_my_frames(
-    db: Session = Depends(get_db),
+@router.post("/me/upload")
+async def upload_image(
+    file: UploadFile = File(...),
     current_creator: models.Creator = Depends(get_current_creator)
 ):
+    allowed = {"image/jpeg", "image/png", "image/webp", "image/gif"}
+    if file.content_type not in allowed:
+        raise HTTPException(status_code=400, detail="Только изображения jpg/png/webp/gif")
+    ext = file.filename.rsplit(".", 1)[-1].lower()
+    filename = f"{uuid.uuid4()}.{ext}"
+    file_path = os.path.join(UPLOAD_DIR, filename)
+    with open(file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+    return {"url": f"http://localhost:8000/uploads/{filename}"}
+
+@router.get("/me/frames")
+async def get_my_frames(db: Session = Depends(get_db), current_creator: models.Creator = Depends(get_current_creator)):
     frames = db.query(models.Frame).filter(
         models.Frame.creator_id == current_creator.id
     ).order_by(models.Frame.created_at.desc()).all()
@@ -161,6 +167,7 @@ async def get_my_frames(
             "title": f.title,
             "description": f.description,
             "is_published": f.is_published,
+            "layout": f.layout,
             "created_at": f.created_at,
             "tags": [{"id": t.id, "name": t.name} for t in f.tags]
         }
@@ -171,15 +178,13 @@ async def get_my_frames(
 async def create_my_frame(
     title: str = Form(...),
     description: Optional[str] = Form(None),
-    layout: str = Form("{}"),
+    layout: str = Form('{"items":[],"description":""}'),
     tag_names: Optional[str] = Form(None),
-    is_published: bool = Form(True),
+    is_published: bool = Form(False),
     db: Session = Depends(get_db),
     current_creator: models.Creator = Depends(get_current_creator)
 ):
-    import json
     tag_list = json.loads(tag_names) if tag_names else []
-
     frame = models.Frame(
         title=title,
         description=description,
@@ -189,7 +194,6 @@ async def create_my_frame(
     )
     db.add(frame)
     db.flush()
-
     for tag_name in tag_list:
         tag = db.query(models.Tag).filter(models.Tag.name == tag_name).first()
         if not tag:
@@ -197,17 +201,47 @@ async def create_my_frame(
             db.add(tag)
             db.flush()
         frame.tags.append(tag)
-
     db.commit()
     db.refresh(frame)
     return {"id": frame.id, "title": frame.title, "message": "Мудборд создан"}
 
-@router.delete("/me/frames/{frame_id}")
-async def delete_my_frame(
+@router.put("/me/frames/{frame_id}")
+async def update_my_frame(
     frame_id: int,
+    title: Optional[str] = Form(None),
+    description: Optional[str] = Form(None),
+    layout: Optional[str] = Form(None),
+    tag_names: Optional[str] = Form(None),
+    is_published: Optional[bool] = Form(None),
     db: Session = Depends(get_db),
     current_creator: models.Creator = Depends(get_current_creator)
 ):
+    frame = db.query(models.Frame).filter(
+        models.Frame.id == frame_id,
+        models.Frame.creator_id == current_creator.id
+    ).first()
+    if not frame:
+        raise HTTPException(status_code=404, detail="Мудборд не найден")
+    if title is not None: frame.title = title
+    if description is not None: frame.description = description
+    if layout is not None: frame.layout = layout
+    if is_published is not None: frame.is_published = is_published
+    if tag_names is not None:
+        tag_list = json.loads(tag_names)
+        frame.tags = []
+        for tag_name in tag_list:
+            tag = db.query(models.Tag).filter(models.Tag.name == tag_name).first()
+            if not tag:
+                tag = models.Tag(name=tag_name)
+                db.add(tag)
+                db.flush()
+            frame.tags.append(tag)
+    db.commit()
+    db.refresh(frame)
+    return {"id": frame.id, "title": frame.title, "is_published": frame.is_published, "message": "Сохранено"}
+
+@router.delete("/me/frames/{frame_id}")
+async def delete_my_frame(frame_id: int, db: Session = Depends(get_db), current_creator: models.Creator = Depends(get_current_creator)):
     frame = db.query(models.Frame).filter(
         models.Frame.id == frame_id,
         models.Frame.creator_id == current_creator.id
@@ -218,12 +252,8 @@ async def delete_my_frame(
     db.commit()
     return {"message": "Мудборд удалён"}
 
-@router.patch("/me/frames/{frame_id}")
-async def toggle_publish(
-    frame_id: int,
-    db: Session = Depends(get_db),
-    current_creator: models.Creator = Depends(get_current_creator)
-):
+@router.patch("/me/frames/{frame_id}/toggle")
+async def toggle_publish(frame_id: int, db: Session = Depends(get_db), current_creator: models.Creator = Depends(get_current_creator)):
     frame = db.query(models.Frame).filter(
         models.Frame.id == frame_id,
         models.Frame.creator_id == current_creator.id

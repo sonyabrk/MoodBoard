@@ -4,6 +4,8 @@ import Background from './components/Background/Background';
 import Home from './pages/Home';
 import AdminDashboard from './pages/AdminDashboard';
 import CreatorDashboard from './pages/CreatorDashboard';
+import MoodboardEditor from './pages/MoodboardEditor';
+import BoardView from './pages/BoardView';
 import SetPassword from './pages/SetPassword';
 import AdminLogin from './pages/AdminLogin';
 import Search from './pages/Search';
@@ -17,6 +19,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
           <Route path="/creator" element={<CreatorDashboard />} />
+          <Route path="/editor" element={<MoodboardEditor />} />
+          <Route path="/editor/:frameId" element={<MoodboardEditor />} />
+          <Route path="/boards/:frameId" element={<BoardView />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/set-password" element={<SetPassword />} />

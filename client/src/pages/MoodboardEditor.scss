@@ -1,0 +1,177 @@
+@font-face {
+  font-family: 'Soledago';
+  src: url('/fonts/Soledago.ttf') format('truetype');
+}
+$font: 'Soledago', sans-serif;
+$burgundy: rgba(114, 0, 0, 0.85);
+$burgundy-faint: rgba(114, 0, 0, 0.07);
+$burgundy-border: rgba(114, 0, 0, 0.18);
+
+.editor-page {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background: #f5f5f3;
+  font-family: $font;
+  user-select: none;
+}
+
+.editor-panel {
+  width: 260px;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #ffffff, #ffffff, #7b0707);
+  backdrop-filter: blur(16px);
+  border-left: 0.5px solid rgba(0, 0, 0, 0.08);
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+  order: 2;
+}
+
+.editor-back-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 9px 16px; border-radius: 100px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(0,0,0,0.45);
+  font-family: $font; font-size: 0.88rem;
+  color: rgba(0,0,0,0.65); cursor: pointer;
+  transition: background 0.2s;
+  align-self: flex-start;
+  svg { width: 13px; height: 13px; }
+  &:hover { background: rgba(0,0,0,0.05); }
+}
+
+.editor-section {
+  display: flex; flex-direction: column; gap: 6px;
+}
+
+.editor-label {
+  font-size: 0.75rem; color: rgba(0,0,0,0.35);
+  text-transform: lowercase; letter-spacing: 0.04em;
+}
+
+.editor-input {
+  width: 100%; padding: 9px 13px;
+  border: 1px solid rgba(0,0,0,0.12); border-radius: 100px;
+  font-family: $font; font-size: 0.88rem;
+  background: #fff; color: rgba(0,0,0,0.8);
+  outline: none;
+  &:focus { border-color: rgba(114,0,0,0.3); }
+  &::placeholder { color: rgba(0,0,0,0.2); }
+}
+
+.editor-upload-btn {
+  display: flex; align-items: center; justify-content: center;
+  padding: 11px; border-radius: 100px;
+  background: $burgundy-faint; border: 1px dashed $burgundy-border;
+  font-family: $font; font-size: 0.88rem; color: $burgundy;
+  cursor: pointer; transition: background 0.2s;
+  &:hover { background: rgba(114,0,0,0.12); }
+}
+
+.editor-hint {
+  font-size: 0.75rem; color: rgba(0,0,0,0.75); line-height: 1.5;
+  &.center { text-align: center; margin-top: auto; }
+}
+
+.editor-item-controls {
+  display: flex; flex-wrap: wrap; gap: 6px;
+}
+
+.editor-ctrl-btn {
+  padding: 6px 13px; border-radius: 100px;
+  font-family: $font; font-size: 0.8rem; cursor: pointer;
+  border: 0.5px solid rgba(0,0,0,0.15); background: #fff;
+  color: rgba(0,0,0,0.6); transition: all 0.2s;
+  &:hover { background: rgba(0,0,0,0.04); }
+  &.danger {
+    border-color: rgba(180,0,0,0.2); color: rgba(180,0,0,0.6);
+    &:hover { background: rgba(180,0,0,0.06); }
+  }
+}
+
+.editor-actions {
+  display: flex; flex-direction: column; gap: 8px;
+}
+
+.editor-save-btn {
+  width: 100%; padding: 12px;
+  border-radius: 100px; border: none;
+  font-family: $font; font-size: 0.9rem; cursor: pointer;
+  transition: all 0.2s;
+
+  &.draft {
+    background: rgba(0,0,0,0.07); color: rgba(0,0,0,0.65);
+    border: 1px solid rgba(0,0,0,0.12);
+    &:hover { background: rgba(0,0,0,0.12); }
+  }
+
+  &.publish {
+    background: rgba(114,0,0,0.8); color: white;
+    &:hover { background: rgba(114,0,0,0.95); }
+  }
+
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+}
+
+/* ── Холст ── */
+.editor-canvas-wrap {
+  flex: 1; overflow: auto; order: 1;
+  display: flex; align-items: flex-start; justify-content: flex-start;
+  padding: 32px;
+  background: #ebebea;
+}
+
+.editor-canvas {
+  position: relative;
+  background: #ffffff;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.12);
+  border-radius: 4px;
+  flex-shrink: 0;
+  cursor: default;
+}
+
+.editor-canvas-empty {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; color: rgba(0,0,0,0.18);
+  font-family: $font; pointer-events: none;
+}
+
+.editor-item {
+  position: absolute;
+  cursor: grab;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  border: 2px solid transparent;
+  border-radius: 2px;
+  overflow: visible;
+
+  &:active { cursor: grabbing; }
+
+  &.selected {
+    border-color: rgba(114,0,0,0.6);
+    box-shadow: 0 0 0 1px rgba(114,0,0,0.3), 0 4px 20px rgba(0,0,0,0.2);
+  }
+
+  img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    pointer-events: none; border-radius: 1px;
+  }
+}
+
+.resize-handle {
+  position: absolute;
+  bottom: -5px; right: -5px;
+  width: 14px; height: 14px;
+  background: white;
+  border: 2px solid rgba(114,0,0,0.6);
+  border-radius: 50%;
+  cursor: se-resize;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.editor-item.selected .resize-handle { opacity: 1; }
