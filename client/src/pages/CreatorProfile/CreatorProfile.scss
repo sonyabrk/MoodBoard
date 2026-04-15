@@ -88,6 +88,47 @@ $burgundy-border: rgba(114, 0, 0, 0.18);
   font-size: 0.75rem; color: rgba(0,0,0,0.35);
 }
 
+.cp-cabinet-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 8px;
+}
+
+.cp-likes-btn {
+  padding: 9px 18px;
+  border-radius: 100px;
+  border: 1px solid $burgundy-border;
+  background: $burgundy-faint;
+  color: $burgundy;
+  font-family: $font;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  &:hover {
+    background: rgba(114,0,0,0.12);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(114,0,0,0.15);
+  }
+}
+
+.cp-logout-btn {
+  padding: 9px 18px;
+  border-radius: 100px;
+  border: 1px solid rgba(0,0,0,0.18);
+  background: none;
+  color: rgba(0,0,0,0.45);
+  font-family: $font;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  &:hover {
+    border-color: rgba(114,0,0,0.35);
+    color: $burgundy;
+    background: $burgundy-faint;
+  }
+}
+
 .cp-main {
   padding: 32px 36px;
 }
@@ -135,4 +176,5 @@ $burgundy-border: rgba(114, 0, 0, 0.18);
   .cp-header { padding: 14px 16px; }
   .cp-main { padding: 16px; }
   .cp-grid { grid-template-columns: 1fr; }
+  .cp-cabinet-actions { margin-left: 0; width: 100%; }
 }

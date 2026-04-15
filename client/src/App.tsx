@@ -10,6 +10,8 @@ import SetPassword from './pages/SetPassword/SetPassword';
 import AdminLogin from './pages/AdminLogin/AdminLogin';
 import Search from './pages/Search/Search';
 import CreatorProfile from './pages/CreatorProfile/CreatorProfile';
+import UserProfile from './pages/UserProfile/UserProfile';
+import CreatorLikes from './pages/CreatorLikes/CreatorLikes';
 
 function App() {
   return (
@@ -20,10 +22,12 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
           <Route path="/creator" element={<CreatorDashboard />} />
+          <Route path="/user" element={<UserProfile />} />
           <Route path="/editor" element={<MoodboardEditor />} />
           <Route path="/editor/:frameId" element={<MoodboardEditor />} />
           <Route path="/boards/:frameId" element={<BoardView />} />
           <Route path="/profile/:username" element={<CreatorProfile />} />
+          <Route path="/creator/likes" element={<CreatorLikes />} />
 
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminDashboard />} />

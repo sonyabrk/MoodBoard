@@ -114,6 +114,31 @@ async def register_user(data: UserRegister, db: Session = Depends(get_db)):
         "role": "user",
     }
 
+@router.post("/login")
+async def login_user(
+    username: str = Form(...),
+    password: str = Form(...),
+    db: Session = Depends(get_db)
+):
+    user = db.query(models.User).filter(models.User.username == username).first()
+    if not user or not verify_password(password, user.password_hash):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Неверный логин или пароль"
+        )
+    if not user.is_active:
+        raise HTTPException(status_code=403, detail="Аккаунт деактивирован")
+
+    token = create_access_token(
+        data={"sub": user.username, "role": "user"},
+        expires_delta=timedelta(hours=24)
+    )
+    return {
+        "access_token": token,
+        "token_type": "bearer",
+        "username": user.username,
+        "role": "user",
+    }
 
 @router.get("/me")
 async def get_user_me(current_user: models.User = Depends(get_current_user)):
@@ -300,7 +325,6 @@ async def delete_comment(
     if not comment:
         raise HTTPException(status_code=404, detail="Комментарий не найден")
 
-    # only owner can delete
     if user and comment.user_id != user.id:
         raise HTTPException(status_code=403, detail="Нет прав")
     if creator and comment.creator_id != creator.id:
@@ -309,9 +333,6 @@ async def delete_comment(
     db.delete(comment)
     db.commit()
     return {"message": "Удалено"}
-
-
-# ── creator likes cabinet ─────────────────────────────────────────────────────
 
 @router.get("/creator-likes")
 async def get_creator_likes(

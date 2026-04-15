@@ -1,5 +1,3 @@
-//  API типы 
-
 export interface Tag {
   id: number
   name: string
@@ -23,7 +21,7 @@ export interface Frame {
   id: number
   title: string
   description?: string
-  layout: string // JSON string
+  layout: string 
   is_published: boolean
   created_at: string
   tags: Tag[]
@@ -75,7 +73,7 @@ export interface LoginData {
   access_token: string
   token_type: string
   username: string
-  role: 'admin' | 'creator'
+  role: 'admin' | 'creator' | 'user'
   first_name?: string
 }
 
@@ -93,7 +91,6 @@ export interface BoardPublic {
   created_at: string
 }
 
-//  Пропсы компонентов 
 
 export interface LoginModalProps {
   isOpen: boolean

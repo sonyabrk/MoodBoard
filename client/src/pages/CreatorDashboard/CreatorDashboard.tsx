@@ -117,6 +117,13 @@ function CreatorDashboard() {
             <span className="creator-stat-label">опубликовано</span>
           </div>
         </div>
+        <button
+          className="creator-likes-btn"
+          onClick={() => navigate('/creator/likes')}
+          title="Мои лайки"
+        >
+          ♥ лайки
+        </button>
 
         <button className="creator-logout-btn" onClick={handleLogout}>выйти</button>
       </aside>

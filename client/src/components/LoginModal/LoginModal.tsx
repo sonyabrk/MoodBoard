@@ -5,12 +5,11 @@ import './LoginModal.scss'
 function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps) {
   const [tab, setTab] = useState<'login' | 'register'>('login')
 
-  // login state
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+  const [loginRole, setLoginRole] = useState<'creator' | 'user'>('creator')
 
-  // register state
   const [regUsername, setRegUsername] = useState('')
   const [regEmail, setRegEmail] = useState('')
   const [regPassword, setRegPassword] = useState('')
@@ -24,7 +23,11 @@ function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps) {
     setError('')
     setLoading(true)
     try {
-      const response = await fetch('http://localhost:8000/api/creators/login', {
+      const loginUrl = loginRole === 'creator'
+        ? 'http://localhost:8000/api/creators/login'
+        : 'http://localhost:8000/api/users/login'
+
+      const response = await fetch(loginUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({ username, password }),
@@ -86,7 +89,7 @@ function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps) {
             {tab === 'login' ? 'Вход в аккаунт' : 'Регистрация'}
           </h2>
           <p className="login-subtitle">
-            {tab === 'login' ? 'Войдите как админ или креатор' : 'Создайте аккаунт зрителя'}
+            {tab === 'login' ? 'Войдите как админ, креатор или зритель' : 'Создайте аккаунт зрителя'}
           </p>
         </div>
 
@@ -127,6 +130,28 @@ function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps) {
                   {showPassword ? '🔒' : '🔓'}
                 </button>
               </div>
+            </div>
+            <div className="login-role-selector">
+              <label className="login-radio">
+                <input
+                  type="radio"
+                  name="loginRole"
+                  value="creator"
+                  checked={loginRole === 'creator'}
+                  onChange={() => setLoginRole('creator')}
+                />
+                Креатор / Админ
+              </label>
+              <label className="login-radio">
+                <input
+                  type="radio"
+                  name="loginRole"
+                  value="user"
+                  checked={loginRole === 'user'}
+                  onChange={() => setLoginRole('user')}
+                />
+                Зритель
+              </label>
             </div>
             <button type="submit" className="login-submit-btn" disabled={loading}>
               {loading ? 'Вход...' : 'Войти'}

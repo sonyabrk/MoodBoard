@@ -13,13 +13,23 @@ function CreatorProfile() {
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string>('')
 
+  const currentRole = localStorage.getItem('userRole')
+  const currentUsername = localStorage.getItem('username')
+  const isOwnCabinet = !username && currentRole === 'creator'
+  const profileUsername = username || currentUsername || ''
+
   useEffect(() => {
-    if (!username) return
-    fetch(`${API}/api/profiles/${username}`)
+    if (!profileUsername) return
+    fetch(`${API}/api/profiles/${profileUsername}`)
       .then(r => { if (!r.ok) throw new Error('Креатор не найден'); return r.json() })
       .then((data: CreatorPublic) => { setCreator(data); setLoading(false) })
       .catch((err: Error) => { setError(err.message); setLoading(false) })
-  }, [username])
+  }, [profileUsername])
+
+  const handleLogout = () => {
+    ;['authToken', 'adminToken', 'userRole', 'username'].forEach(k => localStorage.removeItem(k))
+    navigate('/')
+  }
 
   if (loading) return <div className="cp-loading">загрузка...</div>
   if (error || !creator) return (
@@ -53,6 +63,20 @@ function CreatorProfile() {
             <span className="cp-stat-num">{creator.frames.length}</span>
             <span className="cp-stat-label">мудбордов</span>
           </div>
+
+          {/* own cabinet actions */}
+          {isOwnCabinet && (
+            <div className="cp-cabinet-actions">
+              <button
+                className="cp-likes-btn"
+                onClick={() => navigate('/creator/likes')}
+                title="Мои лайки"
+              >
+                ♥ лайки
+              </button>
+              <button className="cp-logout-btn" onClick={handleLogout}>выйти</button>
+            </div>
+          )}
         </div>
       </header>
 
