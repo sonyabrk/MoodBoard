@@ -38,7 +38,6 @@ class CreatorProfile(BaseModel):
     class Config:
         from_attributes = True
 
-# ── Публичные ─────────────────────────────────────────────
 @router.post("/check-username")
 async def check_username(data: UsernameCheck, db: Session = Depends(get_db)):
     existing = db.query(models.CreatorApplication).filter(
@@ -112,7 +111,6 @@ async def unified_login(username: str = Form(...), password: str = Form(...), db
         return {"access_token": token, "token_type": "bearer", "username": creator.username, "role": "creator", "first_name": creator.first_name}
     raise HTTPException(status_code=401, detail="Неверный логин или пароль")
 
-# ── Публичный просмотр мудборда ────────────────────────────
 @router.get("/boards/{frame_id}")
 async def get_board_public(frame_id: int, db: Session = Depends(get_db)):
     frame = db.query(models.Frame).filter(
@@ -136,7 +134,6 @@ async def get_board_public(frame_id: int, db: Session = Depends(get_db)):
         "created_at": frame.created_at,
     }
 
-# ── Защищённые эндпоинты ЛК ───────────────────────────────
 @router.get("/me", response_model=CreatorProfile)
 async def get_me(current_creator: models.Creator = Depends(get_current_creator)):
     return current_creator

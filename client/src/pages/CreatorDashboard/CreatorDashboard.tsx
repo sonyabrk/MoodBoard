@@ -17,6 +17,11 @@ function CreatorDashboard() {
   const [creating, setCreating] = useState<boolean>(false)
 
   const token = localStorage.getItem('authToken')
+  
+  const clearAuthAndExit = () => {
+    ['authToken', 'adminToken', 'userRole', 'username'].forEach(k => localStorage.removeItem(k));
+    navigate('/');
+  };
 
   useEffect(() => {
     if (!token) { navigate('/'); return }

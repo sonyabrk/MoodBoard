@@ -12,15 +12,29 @@ function LoginButton() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const token = localStorage.getItem('authToken')
-    const storedUsername = localStorage.getItem('username')
-    const storedRole = localStorage.getItem('userRole')
-    if (token && storedUsername) {
-      setIsLoggedIn(true)
-      setUsername(storedUsername)
-      setRole(storedRole ?? '')
+    const token = localStorage.getItem('authToken');
+    const storedUsername = localStorage.getItem('username');
+    const storedRole = localStorage.getItem('userRole');
+    
+    if (!token || !storedUsername || !storedRole) {
+      handleLogout();
+      return;
     }
-  }, [])
+
+    fetch('http://localhost:8000/api/creators/me', {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(res => {
+        if (res.ok) {
+          setIsLoggedIn(true);
+          setUsername(storedUsername);
+          setRole(storedRole);
+        } else {
+          handleLogout();
+        }
+      })
+      .catch(() => handleLogout());
+  }, []);
 
   const handleLoginSuccess = (data: LoginData): void => {
     localStorage.setItem('authToken', data.access_token)
@@ -69,6 +83,7 @@ function LoginButton() {
   return (
     <>
       <button
+        type="button"
         className="login-button"
         onClick={() => setShowLoginModal(true)}
         title="Войти в аккаунт"

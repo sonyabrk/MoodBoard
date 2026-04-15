@@ -1,4 +1,4 @@
-import LoginButton from '../LoginButton/LoginButthon';
+import LoginButton from '../LoginButton/LoginButton';
 import SearchButton from '../SearchButton/SearchButton';
 import './Hero.scss';
 
