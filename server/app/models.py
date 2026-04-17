@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, ForeignKey, Table, UniqueConstraint
+from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, ForeignKey, Table, UniqueConstraint, Float
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from .database import Base
@@ -58,6 +58,11 @@ class Frame(Base):
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     admin_id = Column(Integer, ForeignKey('admins.id'), nullable=True)
     creator_id = Column(Integer, ForeignKey('creators.id'), nullable=True)
+
+    # Новые поля для координат настроения
+    mood_x = Column(Float, nullable=True)
+    mood_y = Column(Float, nullable=True)
+
     admin = relationship("Admin", back_populates="frames", foreign_keys=[admin_id])
     creator = relationship("Creator", back_populates="frames", foreign_keys=[creator_id])
     tags = relationship("Tag", secondary=frame_tag, back_populates="frames")

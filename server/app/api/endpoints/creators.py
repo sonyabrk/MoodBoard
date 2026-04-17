@@ -4,12 +4,12 @@ from pydantic import BaseModel, EmailStr, HttpUrl
 from typing import List, Optional
 from datetime import datetime, timedelta
 import secrets, os, uuid, shutil, json
+import logging
 from ...database import get_db
 from ... import models
 from ...auth import verify_password, create_access_token, get_password_hash, get_current_creator
 
 router = APIRouter()
-
 UPLOAD_DIR = os.getenv("UPLOAD_DIR", "./uploads")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
@@ -35,6 +35,7 @@ class CreatorProfile(BaseModel):
     last_name: str
     portfolio_url: Optional[str]
     created_at: datetime
+
     class Config:
         from_attributes = True
 
@@ -132,6 +133,8 @@ async def get_board_public(frame_id: int, db: Session = Depends(get_db)):
         "tags": [{"id": t.id, "name": t.name} for t in frame.tags],
         "creator": creator,
         "created_at": frame.created_at,
+        "mood_x": frame.mood_x,
+        "mood_y": frame.mood_y,
     }
 
 @router.get("/me", response_model=CreatorProfile)
@@ -153,31 +156,40 @@ async def upload_image(
         shutil.copyfileobj(file.file, buffer)
     return {"url": f"http://localhost:8000/uploads/{filename}"}
 
+
 @router.get("/me/frames")
 async def get_my_frames(db: Session = Depends(get_db), current_creator: models.Creator = Depends(get_current_creator)):
-    frames = db.query(models.Frame).filter(
-        models.Frame.creator_id == current_creator.id
-    ).order_by(models.Frame.created_at.desc()).all()
-    return [
-        {
-            "id": f.id,
-            "title": f.title,
-            "description": f.description,
-            "is_published": f.is_published,
-            "layout": f.layout,
-            "created_at": f.created_at,
-            "tags": [{"id": t.id, "name": t.name} for t in f.tags]
-        }
-        for f in frames
-    ]
+    try:
+        frames = db.query(models.Frame).filter(
+            models.Frame.creator_id == current_creator.id
+        ).order_by(models.Frame.created_at.desc()).all()
+        result = []
+        for f in frames:
+            result.append({
+                "id": f.id,
+                "title": f.title,
+                "description": f.description,
+                "is_published": f.is_published,
+                "layout": f.layout,
+                "created_at": f.created_at,
+                "mood_x": f.mood_x,
+                "mood_y": f.mood_y,
+                "tags": [{"id": t.id, "name": t.name} for t in f.tags]
+            })
+        return result
+    except Exception as e:
+        logging.exception("Error in /me/frames")
+        raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("/me/frames")
 async def create_my_frame(
     title: str = Form(...),
     description: Optional[str] = Form(None),
-    layout: str = Form('{"items":[],"description":""}'),
+    layout: str = Form('{"items":[], "description": " "}'),
     tag_names: Optional[str] = Form(None),
     is_published: bool = Form(False),
+    mood_x: Optional[float] = Form(None),
+    mood_y: Optional[float] = Form(None),
     db: Session = Depends(get_db),
     current_creator: models.Creator = Depends(get_current_creator)
 ):
@@ -187,7 +199,9 @@ async def create_my_frame(
         description=description,
         layout=layout,
         is_published=is_published,
-        creator_id=current_creator.id
+        creator_id=current_creator.id,
+        mood_x=mood_x,
+        mood_y=mood_y,
     )
     db.add(frame)
     db.flush()
@@ -210,6 +224,8 @@ async def update_my_frame(
     layout: Optional[str] = Form(None),
     tag_names: Optional[str] = Form(None),
     is_published: Optional[bool] = Form(None),
+    mood_x: Optional[float] = Form(None),
+    mood_y: Optional[float] = Form(None),
     db: Session = Depends(get_db),
     current_creator: models.Creator = Depends(get_current_creator)
 ):
@@ -223,6 +239,8 @@ async def update_my_frame(
     if description is not None: frame.description = description
     if layout is not None: frame.layout = layout
     if is_published is not None: frame.is_published = is_published
+    if mood_x is not None: frame.mood_x = mood_x
+    if mood_y is not None: frame.mood_y = mood_y
     if tag_names is not None:
         tag_list = json.loads(tag_names)
         frame.tags = []
@@ -235,7 +253,7 @@ async def update_my_frame(
             frame.tags.append(tag)
     db.commit()
     db.refresh(frame)
-    return {"id": frame.id, "title": frame.title, "is_published": frame.is_published, "message": "Сохранено"}
+    return {"id": frame.id, "title": frame.title, "is_published": frame.is_published, "mood_x": frame.mood_x, "mood_y": frame.mood_y, "message": "Сохранено"}
 
 @router.delete("/me/frames/{frame_id}")
 async def delete_my_frame(frame_id: int, db: Session = Depends(get_db), current_creator: models.Creator = Depends(get_current_creator)):

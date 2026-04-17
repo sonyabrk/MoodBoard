@@ -13,9 +13,10 @@ $burgundy-border: rgba(114, 0, 0, 0.18);
 }
 
 .editor-panel {
-  width: 260px;
+  width: 280px;
   flex-shrink: 0;
-  background: linear-gradient(135deg, #ffffff, #ffffff, #7b0707);
+  // background: linear-gradient(135deg, #ffffff, #ffffff, #7b0707);
+  background: #ffffff;;
   backdrop-filter: blur(16px);
   border-left: 0.5px solid rgba(0, 0, 0, 0.08);
   padding: 24px 20px;

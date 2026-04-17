@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 import os
 from .database import engine, Base
-from .api.endpoints import public, admin, creators, users 
+from .api.endpoints import public, admin, creators, users
 
 Base.metadata.create_all(bind=engine)
 
@@ -24,7 +24,7 @@ app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
 app.include_router(public.router, prefix="/api", tags=["public"])
 app.include_router(admin.router, prefix="/api/admin", tags=["admin"])
 app.include_router(creators.router, prefix="/api/creators", tags=["creators"])
-app.include_router(users.router, prefix="/api/users", tags=["users"])  # new
+app.include_router(users.router, prefix="/api/users", tags=["users"])
 
 @app.get("/")
 def read_root():

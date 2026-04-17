@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import type { LayoutItem } from '../../types'
+import MoodSpectrumPicker from '../../components/MoodSpectrumPicker/MoodSpectrumPicker'
 import './MoodboardEditor.scss'
 
 const API = 'http://localhost:8000'
@@ -40,6 +41,8 @@ function MoodboardEditor() {
   const [uploading, setUploading] = useState<boolean>(false)
   const [tags, setTags] = useState<string>('')
   const [scale, setScale] = useState<number>(0.8)
+  const [moodX, setMoodX] = useState<number | null>(null)
+  const [moodY, setMoodY] = useState<number | null>(null)
 
   const dragState = useRef<DragState | null>(null)
   const resizeState = useRef<ResizeState | null>(null)
@@ -58,6 +61,8 @@ function MoodboardEditor() {
           } catch (err) {
             console.error('Ошибка парсинга layout:', err)
           }
+          if (frame.mood_x !== null && frame.mood_x !== undefined) setMoodX(frame.mood_x)
+          if (frame.mood_y !== null && frame.mood_y !== undefined) setMoodY(frame.mood_y)
         }
       })
       .catch(err => console.error('Ошибка загрузки мудборда:', err))
@@ -189,6 +194,8 @@ function MoodboardEditor() {
     if (tags.trim()) {
       body.append('tag_names', JSON.stringify(tags.split(',').map(t => t.trim()).filter(Boolean)))
     }
+    if (moodX !== null) body.append('mood_x', String(moodX))
+    if (moodY !== null) body.append('mood_y', String(moodY))
     try {
       const url = frameId
         ? `${API}/api/creators/me/frames/${frameId}`
@@ -253,6 +260,15 @@ function MoodboardEditor() {
             </div>
           </div>
         )}
+
+        <div className="editor-section">
+          <MoodSpectrumPicker
+            moodX={moodX}
+            moodY={moodY}
+            onChange={(x, y) => { setMoodX(x); setMoodY(y) }}
+            onClear={() => { setMoodX(null); setMoodY(null) }}
+          />
+        </div>
 
         <div className="editor-actions">
           <button className="editor-save-btn draft" onClick={() => handleSave(false)} disabled={saving}>

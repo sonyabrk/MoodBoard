@@ -107,3 +107,50 @@ def get_creator_profile(username: str, db: Session = Depends(get_db)):
             for f in frames
         ]
     }
+
+# ── Mood Spectrum endpoint ────────────────────────────────────────────────────
+
+@router.get("/mood-spectrum")
+def get_mood_spectrum(
+    search: Optional[str] = Query(None),
+    tag: Optional[str] = Query(None),
+    db: Session = Depends(get_db)
+):
+    """
+    Returns all published frames with their mood_x / mood_y coordinates.
+    Frames without coordinates get (0.5, 0.5) — center of the spectrum.
+    Supports the same search/tag filters as /frames.
+    """
+    query = db.query(models.Frame).filter(models.Frame.is_published == True)
+
+    if search:
+        s = f"%{search}%"
+        query = query.outerjoin(models.Frame.tags).outerjoin(
+            models.Creator, models.Frame.creator_id == models.Creator.id
+        ).filter(
+            or_(
+                models.Frame.title.ilike(s),
+                models.Frame.description.ilike(s),
+                models.Tag.name.ilike(s),
+                models.Creator.username.ilike(s),
+                models.Creator.first_name.ilike(s),
+                models.Creator.last_name.ilike(s),
+            )
+        ).distinct()
+    elif tag:
+        query = query.join(models.Frame.tags).filter(models.Tag.name == tag)
+
+    frames = query.all()
+
+    return [
+        {
+            "id": f.id,
+            "title": f.title,
+            "mood_x": f.mood_x if f.mood_x is not None else 0.5,
+            "mood_y": f.mood_y if f.mood_y is not None else 0.5,
+            "has_mood": f.mood_x is not None,
+            "tags": [{"id": t.id, "name": t.name} for t in f.tags],
+            "layout": f.layout,
+        }
+        for f in frames
+    ]
