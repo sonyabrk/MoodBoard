@@ -108,7 +108,6 @@ def get_creator_profile(username: str, db: Session = Depends(get_db)):
         ]
     }
 
-# ── Mood Spectrum endpoint ────────────────────────────────────────────────────
 
 @router.get("/mood-spectrum")
 def get_mood_spectrum(

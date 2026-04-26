@@ -32,7 +32,6 @@ $burgundy-border: rgba(114, 0, 0, 0.18);
   font-family: $font;
 }
 
-/* ── header ─────────────────────────────────────────────── */
 .boardview-header {
   position: sticky;
   top: 0;
@@ -98,10 +97,11 @@ $burgundy-border: rgba(114, 0, 0, 0.18);
   color: $burgundy;
 }
 
-/* ── canvas ─────────────────────────────────────────────── */
 .boardview-main {
   padding: 40px 36px;
   overflow-x: auto;
+  display: flex;
+  justify-content: center;
 }
 
 .boardview-canvas {
@@ -120,7 +120,6 @@ $burgundy-border: rgba(114, 0, 0, 0.18);
   }
 }
 
-/* ── social section ─────────────────────────────────────── */
 .boardview-social {
   max-width: 720px;
   margin: 0 auto;
